@@ -23,15 +23,7 @@ import com.badlogic.gdx.utils.BufferUtils;
 
 public class First3DGame extends ApplicationAdapter implements InputProcessor {
 	
-	private Camera cam;
-	private Camera orthoCam;
-
-	private Player player;
-
-	private float degrees;
-	private float angel;
-	
-	
+	private World world;
 	private Shader shader;
 	
 
@@ -58,88 +50,40 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
-
-		orthoCam = new Camera(shader.viewMatrixLoc, shader.projectionMatrixLoc);
 		
-		cam = new Camera(shader.viewMatrixLoc, shader.projectionMatrixLoc);
 		
-		cam.perspectiveProjection(90.0f, 1f, 0.1f, 100.0f);
-		orthoCam.orthographicProjection(-10, 10, -10, 10, 1, 100);
-		
-		//playerStart=new Point3D(2,1,2);
-		//player = new Player(new Vector3D(5,0,0),new Point3D(playerStart.x,playerStart.y,playerStart.z) , cam, orthoCam, maze, 0.1f);
-
-		//Set up lights
-		/*shader.setGlobalAmbient(1.0f, 1.0f, 1.0f);
-		shader.setLightColor(Lights.TOP_LIGHT, 1f,1f, 1f);
-		shader.setLightPosition(Lights.TOP_LIGHT, maze.getWidth()/2, 1000, maze.getHeight()/2);
-		shader.setLightDirectional(Lights.TOP_LIGHT, 1);
-				
-		shader.setLightColor(Lights.MAIN_LIGHT, 1f, 1f, 1f);
-		shader.setLightPosition(Lights.MAIN_LIGHT, cam.eye.x, cam.eye.y, cam.eye.z);
-		shader.setLightDirectional(Lights.MAIN_LIGHT,0	);
-		
-		shader.setLightColor(Lights.GOAL_LIGHT1, 1f, 0f, 0f);
-		shader.setLightPosition(Lights.GOAL_LIGHT1, maze.getGoalPosition().x + 2f, 3, maze.getGoalPosition().z + 2f);
-		shader.setLightDirectional(Lights.GOAL_LIGHT1, 1);
-		
-		shader.setLightColor(Lights.GOAL_LIGHT2, 0f, 1f, 0f);
-		shader.setLightPosition(Lights.GOAL_LIGHT2, maze.getGoalPosition().x - 2f, 1, maze.getGoalPosition().z + 2f);
-		shader.setLightDirectional(Lights.GOAL_LIGHT2, 1);
-		
-		shader.setLightColor(Lights.GOAL_LIGHT3, 0f, 0f, 1f);
-		shader.setLightPosition(Lights.GOAL_LIGHT3, maze.getGoalPosition().x - 2f, 1, maze.getGoalPosition().z - 2f);
-		shader.setLightDirectional(Lights.GOAL_LIGHT3, 1);
-		
-		shader.setLightColor(Lights.GOAL_LIGHT4, 0f, 0.5f, 0.5f);
-		shader.setLightPosition(Lights.GOAL_LIGHT4, maze.getGoalPosition().x + 2f, 1, maze.getGoalPosition().z - 2f);
-		shader.setLightDirectional(Lights.GOAL_LIGHT4, 1);8*/
-		
-				
-
+		world = new World(new Point3D(0,0,0), shader, 10000);
 	}
 
 	private void input()
 	{
 		float dt = Gdx.graphics.getDeltaTime();
-		float moveSpeed = 1, lookSpeed = 75;
 
 		
-		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			//cam.yaw(lookSpeed*dt);
-			player.rotateY(90, dt);
+
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			player.rotateY(-90, dt);
+			
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			//TODO add look up
-			player.rotateUp(1, dt);
-			//cam.pitch(-lookSpeed*dt);
+
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			//TODO add look down
-			player.rotateUp(-1, dt);
-			//cam.pitch(lookSpeed*dt);
+
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 
-	
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 
-			//cam.slide(moveSpeed*dt, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
 
-			//cam.walkForward(dt);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 
-			//cam.walkForward(-dt);
-			//cam.slide(0, 0, moveSpeed*dt);
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.N)) {
@@ -155,24 +99,9 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 	private void update()
 	{
 		
-		float deltaTime = Gdx.graphics.getDeltaTime();
-		//player.updateCam();
-		Gdx.gl.glUniformMatrix4fv(shader.viewMatrixLoc, 1, false, cam.getViewMatrix());
+		float dt = Gdx.graphics.getDeltaTime();
 
-		
-		//do all updates to the game
-		
-
-				
-		
-		/*shader.setLightPosition(Lights.GOAL_LIGHT1, maze.getGoalPosition().x + 2f, 0.5f, maze.getGoalPosition().z + 2f);
-
-		shader.setLightPosition(Lights.GOAL_LIGHT2, maze.getGoalPosition().x - 2f, 0.5f, maze.getGoalPosition().z + 2f);
-
-		shader.setLightPosition(Lights.GOAL_LIGHT3, maze.getGoalPosition().x - 2f, 0.5f, maze.getGoalPosition().z - 2f);
-
-		shader.setLightPosition(Lights.GOAL_LIGHT4, maze.getGoalPosition().x + 2f, 0.5f, maze.getGoalPosition().z - 2f);*/
-
+		world.update(dt);
 	}
 	
 	private void buildMaze(boolean showPlayer) {

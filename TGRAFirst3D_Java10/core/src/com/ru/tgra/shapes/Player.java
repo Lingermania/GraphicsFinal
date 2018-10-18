@@ -19,6 +19,14 @@ public class Player {
 		this.position  = position;
 	}
 	
+	public Point3D position() {
+		return this.position;
+	}
+	
+	public Vector3D direction() {
+		return this.direction;
+	}
+	
 	public void setCamera(Camera cam) {
 		this.cam = cam;
 	}
@@ -59,12 +67,10 @@ public class Player {
 		
 	}
 	
-	
 	public void rotateUp(float angle, float dt) {
-
-		//camLook(Point3D.add(new Point3D(this.position.x, cameraUpAngle, this.position.z), this.normalizedDirection), this.position, new Vector3D(0,1,0));
 		
 	}
+	
 	
 
 	

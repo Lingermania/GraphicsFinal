@@ -10,13 +10,6 @@ public class Opponent extends Player{
 		this.tex = tex;
 	}
 	
-	public Point3D position() {
-		return super.position;
-	}
-	
-	public Vector3D direction() {
-		return super.direction;
-	}
 	
 	public void draw() {
 		

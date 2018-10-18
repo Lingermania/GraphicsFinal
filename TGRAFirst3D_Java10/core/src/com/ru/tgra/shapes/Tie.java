@@ -7,4 +7,9 @@ public class Tie extends Player {
 	public Tie(Point3D position, Vector3D direction) {
 		super(position, direction);
 	}
+	
+	
+	public void draw() {
+		
+	}
 }
