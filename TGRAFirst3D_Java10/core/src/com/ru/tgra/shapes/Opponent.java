@@ -1,5 +1,7 @@
 package com.ru.tgra.shapes;
 
+import com.badlogic.gdx.graphics.Texture;
+
 public class Opponent extends Player{
 
 	private Texture tex;

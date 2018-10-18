@@ -1,6 +1,7 @@
 package com.ru.tgra.shapes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 
 public class World {
 	
@@ -23,8 +24,18 @@ public class World {
 		//Initialize camera
 		cam = new Camera(shader.viewMatrixLoc, shader.projectionMatrixLoc);
 		cam.perspectiveProjection(90.0f, 1f, 0.1f, 100.0f);
+
+		//Initialize planets
+		planets = new Planet[10];
 		
+		//Initialize texture
 		
+		//Initialize opponents
+		opponents = new Opponent[10];
+		
+		//Initialize player
+		player = new Tie(new Point3D(0,0,0), new Vector3D(1,0,0)); //Initialize in center of world
+		player.setCamera(cam);
 		
 	}
 	

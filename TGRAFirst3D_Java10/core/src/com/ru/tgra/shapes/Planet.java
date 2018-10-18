@@ -1,5 +1,7 @@
 package com.ru.tgra.shapes;
 
+import com.badlogic.gdx.graphics.Texture;
+
 public class Planet {
 	
 	private Texture tex;
