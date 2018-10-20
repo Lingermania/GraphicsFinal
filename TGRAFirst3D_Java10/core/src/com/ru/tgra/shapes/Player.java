@@ -12,7 +12,7 @@ public class Player {
 	protected Vector3D normalizedDirection;
 	protected Point3D  position;
 	protected Camera cam;
-
+	
 	
 	public Player(Point3D position, Vector3D direction) {
 		this.direction = direction;
@@ -40,7 +40,7 @@ public class Player {
 	
 		position.x -= direction.x*dt;
 		//position.z -= direction.z*dt;
-		cam.walkForwardX(dt);
+		
 		
 	}
 	

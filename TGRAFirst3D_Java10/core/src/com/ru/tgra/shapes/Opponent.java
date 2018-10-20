@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Opponent extends Player{
 
-	private Texture tex;
+	private Shader shader;
 	
-	public Opponent(Point3D position, Vector3D direction, Texture tex) {
+	public Opponent(Point3D position, Vector3D direction, Shader shader) {
 		
 		super(position, direction);
-		this.tex = tex;
+		this.shader = shader;
 	}
 	
 	
