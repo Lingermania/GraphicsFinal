@@ -13,7 +13,9 @@ public class World {
 	private Texture tex;
 	private ArrayList<Opponent> opponents;
 	public Tie player;
+	
 	private Shader shader;
+	
 	
 	private int size;
 	
@@ -22,6 +24,7 @@ public class World {
 	public World(Point3D position, Shader shader, int size) {
 		this.shader = shader;
 		this.size = size;
+
 		
 		BoxGraphic.create();
 		SphereGraphic.create();
@@ -67,6 +70,8 @@ public class World {
 	
 	public void update(float dt) {
 		player.rotateXYZ();
+		player.forward();
+		player.updatePhysics();
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 

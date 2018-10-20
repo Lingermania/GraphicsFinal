@@ -14,7 +14,7 @@ public class Player {
 	protected Camera cam;
 	protected float cameraUpAngle;
 	protected float angleY, angleX, angleZ;
-	
+	protected PlayerPhysics phys;
 	
 	public Player(Point3D position, Vector3D direction) {
 		this.direction = direction;
@@ -25,6 +25,8 @@ public class Player {
 		this.angleX    = 0.0f;
 		
 		this.cameraUpAngle = 0.4f;
+		
+		phys = new PlayerPhysics();
 	}
 	
 	public Point3D position() {
@@ -47,6 +49,11 @@ public class Player {
 		cam.look(Point3D.add(new Point3D(position.x,position.y + cameraUpAngle, position.z),Vector3D.scale(direction, 1.5f)), position, new Vector3D(0,1,0));
 	}
 	
+	public void updatePhysics() {
+		this.angleZ = phys.avg()*20;
+		System.out.println(this.angleZ);
+	}
+	
 	public void move(float dt) {
 		//Check for collision
 	
@@ -54,15 +61,19 @@ public class Player {
 		position.y += direction.y*dt;
 		position.z += direction.z*dt;
 		
-		
+		updatePhysics();
 		
 	}
 	
-	public void slide(float dt) {
-		//Check for collision
-		
-		
-		
+	public void forward() {
+		phys.forward();
+	}
+	
+	public void left() {
+		phys.left();
+	}
+	public void right() {
+		phys.right();
 	}
 	
 	public void rotateY(float angle, float dt) {
@@ -73,6 +84,9 @@ public class Player {
 		
 		this.angleY += angle*dt;
 		
+		//Some minor physics
+		this.angleZ = phys.avg()*20;
+		updatePhysics();
 		/*this.direction = new Vector3D(c*direction.x - s*direction.z,
 				 					  direction.y,
 				 					  s*direction.x + c*direction.z);
@@ -92,7 +106,8 @@ public class Player {
 		float c       = (float)Math.cos(radians);
 		float s       = -(float)Math.sin(radians);*/
 		
-		this.angleZ += angle*dt;
+		//this.angleZ = phys.avg()*20*dt;
+		
 		
 		/*this.direction = new Vector3D(c*direction.x + s*direction.y,
 									  -s*direction.x + c*direction.y,

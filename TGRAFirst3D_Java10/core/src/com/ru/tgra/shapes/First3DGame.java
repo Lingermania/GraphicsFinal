@@ -68,14 +68,17 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 			//world.cam.slide(-3.0f * deltaTime, 0, 0);
 			world.player.rotateY(90, deltaTime);
+			world.player.left();
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 			world.cam.slide(3.0f * deltaTime, 0, 0);
 			world.player.rotateY(-90, deltaTime);
+			world.player.right();
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
 			//world.cam.slide(0, 0, -3.0f * deltaTime);
 			world.player.move(-deltaTime);
+			world.player.forward();
 			//cam.walkForward(3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -90,12 +93,12 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			world.player.rotateZ(-45f, deltaTime);
+			//world.player.rotateZ(-45f, deltaTime);
 			//world.cam.yaw(-90.0f * deltaTime);
 			//cam.rotateY(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			world.player.rotateZ(45f, deltaTime);
+			//world.player.rotateZ(45f, deltaTime);
 			//world.cam.yaw(90.0f * deltaTime);
 			
 			//cam.rotateY(-90.0f * deltaTime);
@@ -126,14 +129,17 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 			//Gdx.graphics.setDisplayMode(500, 500, false);
 			Gdx.app.exit();
 		}
-
+		
 		//do all updates to the game
 	}
 	
 	private void display()
 	{
 		float dt = Gdx.graphics.getDeltaTime();
+		
+		
 		world.update(dt);
+		
 	}
 
 	@Override
