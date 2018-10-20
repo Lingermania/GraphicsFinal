@@ -1,5 +1,7 @@
 package com.ru.tgra.shapes;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,10 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 public class World {
 	
 	private Point3D position; //Center of our world
-	private Planet[] planets;
+	private ArrayList<Planet> planets;
 	private Texture tex;
-	private Opponent[] opponents;
-	private Tie player;
+	private ArrayList<Opponent> opponents;
+	public Tie player;
 	private Shader shader;
 	
 	private int size;
@@ -22,7 +24,7 @@ public class World {
 		this.size = size;
 		
 		BoxGraphic.create();
-		//SphereGraphic.create();
+		SphereGraphic.create();
 
 		ModelMatrix.main = new ModelMatrix();
 		ModelMatrix.main.loadIdentityMatrix();
@@ -33,12 +35,13 @@ public class World {
 		//cam.perspectiveProjection(90.0f, 1f, 0.1f, 100.0f);
 
 		//Initialize planets
-		planets = new Planet[10];
+		planets = new ArrayList<Planet>();
+		initializePlanets();
 		
 		//Initialize texture
 		
 		//Initialize opponents
-		opponents = new Opponent[10];
+		opponents = new ArrayList<Opponent>();
 		
 		//Initialize player
 		player = new Tie(new Point3D(0,0,0), new Vector3D(0,0,-1), shader); //Initialize in center of world
@@ -48,12 +51,19 @@ public class World {
 		
 	}
 	
-	
-	private void setCamera() {
-		System.out.println(cam.eye.x + "," + cam.eye.y + ", " + cam.eye.z);
-		//cam.look(new Point3D(0,2,0), player.position, new Vector3D(0,1,0));
-		cam.look(Point3D.add(new Point3D(player.position.x, player.position.y + 0.4f, player.position.z), player.direction), player.position, new Vector3D(0,1,0));
+	private void initializePlanets() {
+		//Texture tex, Point3D position, float radius, int orbits
+		
+		planets.add(new Planet(null, new Point3D(0, 0, 10), 10, 0, shader));
+		
 	}
+	
+	private void drawPlanets() {
+		for(Planet p : planets) {
+			p.draw();
+		}
+	}
+
 	
 	public void update(float dt) {
 		//do all actual drawing and rendering here
@@ -68,14 +78,75 @@ public class World {
 		shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
 
 
+		//drawPlanets();
 		player.draw();
-		
-		setCamera();
-		
 		//ModelMatrix.main.popMatrix();
-
-		//drawPyramids();
+		drawPyramids();
+		
 	
+	}
+	
+	private void drawPyramids()
+	{
+		ModelMatrix.main.loadIdentityMatrix();
+		int maxLevel = 9;
+
+		for(int pyramidNr = 0; pyramidNr < 2; pyramidNr++)
+		{
+			ModelMatrix.main.pushMatrix();
+			if(pyramidNr == 0)
+			{
+				shader.setMaterialDiffuse(0.8f, 0.8f, 0.2f, 1.0f);
+				shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+				shader.setShininess(150.0f);
+				shader.setMaterialEmission(0, 0, 0, 1);
+				ModelMatrix.main.addTranslation(0.0f, 0.0f, -7.0f);
+			}
+			else
+			{
+				shader.setMaterialDiffuse(0.5f, 0.3f, 1.0f, 1.0f);
+				shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+				shader.setShininess(150.0f);
+				shader.setMaterialEmission(0, 0, 0, 1);
+				ModelMatrix.main.addTranslation(0.0f, 0.0f, 7.0f);
+			}
+			ModelMatrix.main.pushMatrix();
+			for(int level = 0; level < maxLevel; level++)
+			{
+	
+				ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
+	
+				ModelMatrix.main.pushMatrix();
+				for(int i = 0; i < maxLevel-level; i++)
+				{
+					ModelMatrix.main.addTranslation(1.1f, 0, 0);
+					ModelMatrix.main.pushMatrix();
+					for(int j = 0; j < maxLevel-level; j++)
+					{
+						ModelMatrix.main.addTranslation(0, 0, -1.1f);
+						ModelMatrix.main.pushMatrix();
+						if(i % 2 == 0)
+						{
+							ModelMatrix.main.addScale(0.2f, 1, 1);
+						}
+						else
+						{
+							ModelMatrix.main.addScale(1, 1, 0.2f);
+						}
+						shader.setModelMatrix(ModelMatrix.main.getMatrix());
+						
+						SphereGraphic.drawSolidSphere(shader, null, null);
+						//BoxGraphic.drawSolidCube(shader, null);
+						//BoxGraphic.drawSolidCube(shader, tex);
+						ModelMatrix.main.popMatrix();
+					}
+					ModelMatrix.main.popMatrix();
+				}
+				ModelMatrix.main.popMatrix();
+			}
+			ModelMatrix.main.popMatrix();
+			ModelMatrix.main.popMatrix();
+		}
 	}
 	
 	

@@ -30,11 +30,11 @@ public class MeshModel {
 			//ModelMatrix.main.pushMatrix();
 			
 			
-			ModelMatrix.main.addTranslation(node.translation.x, node.translation.y, node.translation.z);
+			//ModelMatrix.main.addTranslation(node.translation.x, node.translation.y, node.translation.z);
 
-			ModelMatrix.main.addRotationQuaternion(node.rotation.x, node.rotation.y, node.rotation.z, node.rotation.w);
+			//ModelMatrix.main.addRotationQuaternion(node.rotation.x, node.rotation.y, node.rotation.z, node.rotation.w);
 
-			ModelMatrix.main.addScale(node.scale.x, node.scale.y, node.scale.z);
+			//ModelMatrix.main.addScale(node.scale.x, node.scale.y, node.scale.z);
 
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			

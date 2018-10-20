@@ -14,27 +14,24 @@ public class Tie extends Player {
 		
 		model = G3DJModelLoader.loadG3DJFromFile("TIEfighter.g3dj");
 		this.shader = shader;
+		
 	}
 	
+	private void updateCamera() {
+		//System.out.println(cam.eye.x + "," + cam.eye.y + ", " + cam.eye.z);
+		//cam.look(new Point3D(0,2,0), player.position, new Vector3D(0,1,0));
+		cam.look(Point3D.add(new Point3D(position.x,position.y + 0.4f, position.z),direction), position, new Vector3D(0,1,0));
+	}
 	
 	public void draw() {
 		ModelMatrix.main.loadIdentityMatrix();
-
+		ModelMatrix.main.pushMatrix();
 		
-		float angle = 90f;
-		//ModelMatrix.main.addRotationZ(angle);
-		float s = (float)Math.sin((angle / 2.0) * Math.PI / 180.0);
-		float c = (float)Math.cos((angle / 2.0) * Math.PI / 180.0);
 
-		shader.setLightPosition(0.0f + c * 3.0f, 5.0f, 0.0f + s * 3.0f, 1.0f);
-		//shader.setLightPosition(3.0f, 4.0f, 0.0f, 1.0f);
-		//shader.setLightPosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
+		shader.setLightPosition(position.x, position.y + 1, position.z, 1.0f);
 
 
-		float s2 = Math.abs((float)Math.sin((angle / 1.312) * Math.PI / 180.0));
-		float c2 = Math.abs((float)Math.cos((angle / 1.312) * Math.PI / 180.0));
-
-		shader.setSpotDirection(s2, -0.3f, c2, 0.0f);
+		//shader.setSpotDirection(s2, -0.3f, c2, 0.0f);
 		//shader.setSpotDirection(-cam.n.x, -cam.n.y, -cam.n.z, 0.0f);
 		shader.setSpotExponent(0.0f);
 		shader.setConstantAttenuation(1.0f);
@@ -52,19 +49,24 @@ public class Tie extends Player {
 		//shader.setMaterialSpecular(0.0f, 0.0f, 0.0f, 1.0f);
 		shader.setMaterialEmission(0, 0, 0, 1);
 		shader.setShininess(50.0f);
+		
+	
+		ModelMatrix.main.addTranslation(position.x, position.y, position.z);
+		ModelMatrix.main.addRotationY(angleY);
+		ModelMatrix.main.addTranslation(-1.4616f, 0, 2.8852f);
 
-		//ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTranslation(position.x - 1.4616f, position.y, position.z + 2.8852f + 1f);
+		
 		ModelMatrix.main.addScale(0.01f, 0.01f, 0.01f);
+
 		
-		
-		//ModelMatrix.main.addRotation(angle, new Vector3D(1,1,1));
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
-		
-		
-		
+
 		model.draw(shader);
 		
-		//ModelMatrix.main.popMatrix();
+		
+		updateCamera();
+		
+		ModelMatrix.main.popMatrix();
 	}
+	
 }

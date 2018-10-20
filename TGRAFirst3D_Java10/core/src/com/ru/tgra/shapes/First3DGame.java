@@ -59,18 +59,22 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 	
 	private void update()
 	{
+		//System.out.println(world.player.position.x + ", " + world.player.position.y + ", " + world.player.position.z);
+		System.out.println(world.cam.eye.x + ", " + world.cam.eye.y + ", " + world.cam.eye.z);
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		angle += 180.0f * deltaTime;
 
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			world.cam.slide(-3.0f * deltaTime, 0, 0);
+			//world.cam.slide(-3.0f * deltaTime, 0, 0);
+			world.player.rotateY(90, deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 			world.cam.slide(3.0f * deltaTime, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			world.cam.slide(0, 0, -3.0f * deltaTime);
+			//world.cam.slide(0, 0, -3.0f * deltaTime);
+			world.player.move(deltaTime);
 			//cam.walkForward(3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -90,13 +94,16 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			world.cam.yaw(90.0f * deltaTime);
+			
 			//cam.rotateY(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			world.cam.pitch(-90.0f * deltaTime);
+			world.cam.walkForward(3.0f * deltaTime);
+			//world.cam.pitch(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			world.cam.pitch(90.0f * deltaTime);
+			world.cam.walkForward(-3.0f * deltaTime);
+			//world.cam.pitch(90.0f * deltaTime);
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
@@ -132,66 +139,7 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 
 	}
 
-	private void drawPyramids()
-	{
-		int maxLevel = 9;
-
-		for(int pyramidNr = 0; pyramidNr < 2; pyramidNr++)
-		{
-			ModelMatrix.main.pushMatrix();
-			if(pyramidNr == 0)
-			{
-				shader.setMaterialDiffuse(0.8f, 0.8f, 0.2f, 1.0f);
-				shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
-				shader.setShininess(150.0f);
-				shader.setMaterialEmission(0, 0, 0, 1);
-				ModelMatrix.main.addTranslation(0.0f, 0.0f, -7.0f);
-			}
-			else
-			{
-				shader.setMaterialDiffuse(0.5f, 0.3f, 1.0f, 1.0f);
-				shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
-				shader.setShininess(150.0f);
-				shader.setMaterialEmission(0, 0, 0, 1);
-				ModelMatrix.main.addTranslation(0.0f, 0.0f, 7.0f);
-			}
-			ModelMatrix.main.pushMatrix();
-			for(int level = 0; level < maxLevel; level++)
-			{
 	
-				ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
-	
-				ModelMatrix.main.pushMatrix();
-				for(int i = 0; i < maxLevel-level; i++)
-				{
-					ModelMatrix.main.addTranslation(1.1f, 0, 0);
-					ModelMatrix.main.pushMatrix();
-					for(int j = 0; j < maxLevel-level; j++)
-					{
-						ModelMatrix.main.addTranslation(0, 0, -1.1f);
-						ModelMatrix.main.pushMatrix();
-						if(i % 2 == 0)
-						{
-							ModelMatrix.main.addScale(0.2f, 1, 1);
-						}
-						else
-						{
-							ModelMatrix.main.addScale(1, 1, 0.2f);
-						}
-						shader.setModelMatrix(ModelMatrix.main.getMatrix());
-
-						BoxGraphic.drawSolidCube(shader, null);
-						//BoxGraphic.drawSolidCube(shader, tex);
-						ModelMatrix.main.popMatrix();
-					}
-					ModelMatrix.main.popMatrix();
-				}
-				ModelMatrix.main.popMatrix();
-			}
-			ModelMatrix.main.popMatrix();
-			ModelMatrix.main.popMatrix();
-		}
-	}
 
 	@Override
 	public boolean keyDown(int keycode) {
