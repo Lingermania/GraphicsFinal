@@ -66,6 +66,7 @@ public class World {
 
 	
 	public void update(float dt) {
+		player.rotateXYZ();
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
@@ -79,6 +80,7 @@ public class World {
 
 
 		//drawPlanets();
+		
 		player.draw();
 		//ModelMatrix.main.popMatrix();
 		drawPyramids();

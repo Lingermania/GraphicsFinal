@@ -17,11 +17,7 @@ public class Tie extends Player {
 		
 	}
 	
-	private void updateCamera() {
-		//System.out.println(cam.eye.x + "," + cam.eye.y + ", " + cam.eye.z);
-		//cam.look(new Point3D(0,2,0), player.position, new Vector3D(0,1,0));
-		cam.look(Point3D.add(new Point3D(position.x,position.y + 0.4f, position.z),direction), position, new Vector3D(0,1,0));
-	}
+	
 	
 	public void draw() {
 		ModelMatrix.main.loadIdentityMatrix();
@@ -52,7 +48,10 @@ public class Tie extends Player {
 		
 	
 		ModelMatrix.main.addTranslation(position.x, position.y, position.z);
+		
 		ModelMatrix.main.addRotationY(angleY);
+		ModelMatrix.main.addRotationX(angleX);
+		ModelMatrix.main.addRotationZ(angleZ);
 		ModelMatrix.main.addTranslation(-1.4616f, 0, 2.8852f);
 
 		

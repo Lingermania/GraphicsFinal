@@ -60,7 +60,7 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 	private void update()
 	{
 		//System.out.println(world.player.position.x + ", " + world.player.position.y + ", " + world.player.position.z);
-		System.out.println(world.cam.eye.x + ", " + world.cam.eye.y + ", " + world.cam.eye.z);
+		//System.out.println(world.cam.eye.x + ", " + world.cam.eye.y + ", " + world.cam.eye.z);
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		angle += 180.0f * deltaTime;
@@ -71,10 +71,11 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 			world.cam.slide(3.0f * deltaTime, 0, 0);
+			world.player.rotateY(-90, deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
 			//world.cam.slide(0, 0, -3.0f * deltaTime);
-			world.player.move(deltaTime);
+			world.player.move(-deltaTime);
 			//cam.walkForward(3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -89,20 +90,26 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			world.cam.yaw(-90.0f * deltaTime);
+			world.player.rotateZ(-45f, deltaTime);
+			//world.cam.yaw(-90.0f * deltaTime);
 			//cam.rotateY(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			world.cam.yaw(90.0f * deltaTime);
+			world.player.rotateZ(45f, deltaTime);
+			//world.cam.yaw(90.0f * deltaTime);
 			
 			//cam.rotateY(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			world.cam.walkForward(3.0f * deltaTime);
+			world.player.rotateX(-90.0f, deltaTime);
+			//world.player.rotateUp(4.0f, deltaTime);
+			//world.cam.walkForward(3.0f * deltaTime);
 			//world.cam.pitch(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			world.cam.walkForward(-3.0f * deltaTime);
+			//world.player.rotateUp(-4.0f, deltaTime);
+			world.player.rotateX(90.0f, deltaTime);
+			//world.cam.walkForward(-3.0f * deltaTime);
 			//world.cam.pitch(90.0f * deltaTime);
 		}
 

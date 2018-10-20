@@ -60,6 +60,9 @@ public class Vector3D {
 		return new Vector3D(y*v2.z - z*v2.y, z*v2.x - x*v2.z, x*v2.y - y*v2.x);
 	}
 
+	public static Vector3D scale(Vector3D v, float s) {
+		return new Vector3D(v.x *s, v.y *s, v.z *s);
+	}
 	public static Vector3D difference(Point3D P2, Point3D P1)
 	{
 		return new Vector3D(P2.x-P1.x, P2.y-P1.y, P2.z-P1.z);
