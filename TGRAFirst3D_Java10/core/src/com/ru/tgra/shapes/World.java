@@ -69,9 +69,14 @@ public class World {
 
 	
 	public void update(float dt) {
+		
+		player.simulateLasers(dt);
 		player.rotateXYZ();
-		player.forward();
-		player.updatePhysics();
+		player.neutralZ();
+		player.neutralSpeed();
+		
+		player.updatePhysics(dt);
+		
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
@@ -84,11 +89,12 @@ public class World {
 		shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
 
 
-		//drawPlanets();
+		//
 		
 		player.draw();
 		//ModelMatrix.main.popMatrix();
-		drawPyramids();
+		drawPlanets();
+		//drawPyramids();
 		
 	
 	}

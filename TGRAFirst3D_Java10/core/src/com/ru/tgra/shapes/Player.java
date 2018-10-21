@@ -15,6 +15,7 @@ public class Player {
 	protected float cameraUpAngle;
 	protected float angleY, angleX, angleZ;
 	protected PlayerPhysics phys;
+	protected ArrayList<Laser> lasers;
 	
 	public Player(Point3D position, Vector3D direction) {
 		this.direction = direction;
@@ -27,6 +28,7 @@ public class Player {
 		this.cameraUpAngle = 0.4f;
 		
 		phys = new PlayerPhysics();
+		lasers = new ArrayList<Laser>();
 	}
 	
 	public Point3D position() {
@@ -46,12 +48,26 @@ public class Player {
 		//System.out.println(cam.eye.x + "," + cam.eye.y + ", " + cam.eye.z);
 		//cam.look(new Point3D(0,2,0), player.position, new Vector3D(0,1,0));
 		
-		cam.look(Point3D.add(new Point3D(position.x,position.y + cameraUpAngle, position.z),Vector3D.scale(direction, 1.5f)), position, new Vector3D(0,1,0));
+		cam.look(Point3D.add(new Point3D(position.x,position.y + cameraUpAngle, position.z),Vector3D.scale(direction, 2f)), position, new Vector3D(0,1,0));
 	}
 	
-	public void updatePhysics() {
-		this.angleZ = phys.avg()*20;
-		System.out.println(this.angleZ);
+	
+	public void updatePhysics(float dt) {
+		this.angleZ = phys.avgZ()*45;
+		this.angleY -= phys.avgZ()*45*dt;
+		
+		float physSpeed = phys.avgSpeed()*0.1f;
+		System.out.println(physSpeed);
+		
+		position.x += direction.x*physSpeed;
+		position.y += direction.y*physSpeed;
+		position.z += direction.z*physSpeed;
+	}
+	
+	public void simulateLasers(float dt) {
+		for (Laser l : lasers) {
+			l.simulate(dt);
+		}
 	}
 	
 	public void move(float dt) {
@@ -61,12 +77,24 @@ public class Player {
 		position.y += direction.y*dt;
 		position.z += direction.z*dt;
 		
-		updatePhysics();
+		updatePhysics(dt);
 		
+	}
+	
+	public void neutralSpeed() {
+		phys.neutralSpeed();
+	}
+	
+	public void neutralZ() {
+		phys.neutralZ();
 	}
 	
 	public void forward() {
 		phys.forward();
+	}
+	
+	public void backward() {
+		phys.backwards();
 	}
 	
 	public void left() {
@@ -78,50 +106,15 @@ public class Player {
 	
 	public void rotateY(float angle, float dt) {
 		
-		/*float radians = (angle * (float)Math.PI / 180.0f) * dt;
-		float c       = (float)Math.cos(radians);
-		float s       = -(float)Math.sin(radians);*/
-		
 		this.angleY += angle*dt;
 		
 		//Some minor physics
-		this.angleZ = phys.avg()*20;
-		updatePhysics();
-		/*this.direction = new Vector3D(c*direction.x - s*direction.z,
-				 					  direction.y,
-				 					  s*direction.x + c*direction.z);
-		
-		
-		//System.out.println(this.direction.x + ", " + this.direction.y + ", " +  this.direction.z);
-		//this.cam.yaw(angle*dt);
-		this.normalizedDirection = new Vector3D(this.direction.x, this.direction.y, this.direction.z);
-		this.normalizedDirection.normalize();*/
-		
-		
+		this.angleZ = phys.avgZ()*20;
+		updatePhysics(dt);
+
 	}
 	
-	public void rotateZ(float angle, float dt) {
-		
-		/*float radians = (angle * (float)Math.PI / 180.0f) * dt;
-		float c       = (float)Math.cos(radians);
-		float s       = -(float)Math.sin(radians);*/
-		
-		//this.angleZ = phys.avg()*20*dt;
-		
-		
-		/*this.direction = new Vector3D(c*direction.x + s*direction.y,
-									  -s*direction.x + c*direction.y,
-				 					  direction.z);
-		
-		
-		
-		//System.out.println(this.direction.x + ", " + this.direction.y + ", " +  this.direction.z);
-		//this.cam.yaw(angle*dt);
-		this.normalizedDirection = new Vector3D(this.direction.x, this.direction.y, this.direction.z);
-		this.normalizedDirection.normalize();*/
-		
-		
-	}
+
 	public void rotateXYZ() {
 		//Set direction to rotation about angleX, angleY and angleZ
 		float radians = (angleZ * (float)Math.PI / 180.0f);
@@ -161,26 +154,11 @@ public class Player {
 	}
 	public void rotateX(float angle, float dt) {
 		
-		/*float radians = (angle * (float)Math.PI / 180.0f) * dt;
-		float c       = (float)Math.cos(radians);
-		float s       = -(float)Math.sin(radians);*/
-		
-		System.out.println(this.angleX);
+
+		//System.out.println(this.angleX);
 		if (this.angleX + angle*dt < 85 && this.angleX + angle*dt > -85) {
 			this.angleX += angle*dt;
 		}
-		
-		
-		
-		/*this.direction = new Vector3D(direction.x,
-									  c*direction.y + s*direction.z,
-				 					  -s*direction.y + c*direction.z);*/
-		
-		
-		//System.out.println(this.direction.x + ", " + this.direction.y + ", " +  this.direction.z);
-		//this.cam.yaw(angle*dt);
-		//this.normalizedDirection = new Vector3D(this.direction.x, this.direction.y, this.direction.z);
-		//this.normalizedDirection.normalize();
 		
 		
 	}

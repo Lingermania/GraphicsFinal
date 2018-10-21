@@ -78,11 +78,15 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
 			//world.cam.slide(0, 0, -3.0f * deltaTime);
 			world.player.move(-deltaTime);
+			world.player.neutralZ();
 			world.player.forward();
 			//cam.walkForward(3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			world.cam.slide(0, 0, 3.0f * deltaTime);
+			//world.cam.slide(0, 0, 3.0f * deltaTime);
+			world.player.move(deltaTime);
+			world.player.neutralZ();
+			world.player.backward();
 			//cam.walkForward(-3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
@@ -115,7 +119,11 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 			//world.cam.walkForward(-3.0f * deltaTime);
 			//world.cam.pitch(90.0f * deltaTime);
 		}
-
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			//Shoot laser
+			world.player.shoot();
+		}
 		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
 			world.cam.roll(-90.0f * deltaTime);
 		}

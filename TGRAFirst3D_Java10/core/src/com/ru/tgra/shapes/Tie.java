@@ -18,13 +18,25 @@ public class Tie extends Player {
 	}
 	
 	
+	public void shoot() {
+		lasers.add(new Laser(new Point3D(position.x, position.y, position.z),
+				  Vector3D.scale(direction, 15), 
+				  new Point3D(angleX, angleY, angleZ), 
+				  shader));
+	}
+	
+	public void drawLasers() {
+		for(Laser l : lasers) {
+			l.draw();
+		}
+	}
 	
 	public void draw() {
 		ModelMatrix.main.loadIdentityMatrix();
 		ModelMatrix.main.pushMatrix();
 		
 
-		shader.setLightPosition(position.x, position.y + 1, position.z, 1.0f);
+		shader.setLightPosition(position.x, position.y + 100, position.z, 1.0f);
 
 
 		//shader.setSpotDirection(s2, -0.3f, c2, 0.0f);
@@ -61,7 +73,7 @@ public class Tie extends Player {
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 
 		model.draw(shader);
-		
+		drawLasers();
 		
 		updateCamera();
 		
