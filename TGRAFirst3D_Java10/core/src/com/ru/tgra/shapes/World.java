@@ -24,7 +24,7 @@ public class World {
 	public World(Point3D position, Shader shader, int size) {
 		this.shader = shader;
 		this.size = size;
-
+		this.position = position;
 		
 		BoxGraphic.create();
 		SphereGraphic.create();
@@ -42,6 +42,7 @@ public class World {
 		initializePlanets();
 		
 		//Initialize texture
+		tex = new Texture(Gdx.files.internal("textures/Space.png"));
 		
 		//Initialize opponents
 		opponents = new ArrayList<Opponent>();
@@ -63,10 +64,29 @@ public class World {
 	
 	private void drawPlanets() {
 		for(Planet p : planets) {
-			p.draw();
+			//p.draw();
 		}
 	}
 
+	private void drawSkyBox() {
+		
+		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+		shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+		ModelMatrix.main.loadIdentityMatrix();
+		
+		ModelMatrix.main.pushMatrix();
+		
+		ModelMatrix.main.addTranslation(player.position.x, player.position.y, player.position.z);
+		
+		
+		ModelMatrix.main.addScale(size, size, size);
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		
+		
+		
+		BoxGraphic.drawSolidCube(shader, tex);
+		ModelMatrix.main.popMatrix();
+	}
 	
 	public void update(float dt) {
 		
@@ -83,7 +103,7 @@ public class World {
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.perspectiveProjection(90f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, 100.0f);
+		cam.perspectiveProjection(90f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, size);
 		shader.setViewMatrix(cam.getViewMatrix());
 		shader.setProjectionMatrix(cam.getProjectionMatrix());
 		shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
@@ -91,9 +111,16 @@ public class World {
 
 		//
 		
+		Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+		drawSkyBox();
+		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+		
 		player.draw();
 		//ModelMatrix.main.popMatrix();
+		
 		drawPlanets();
+		
+		
 		//drawPyramids();
 		
 	

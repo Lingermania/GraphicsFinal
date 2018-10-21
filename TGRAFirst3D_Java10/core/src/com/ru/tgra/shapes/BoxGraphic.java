@@ -89,37 +89,43 @@ public class BoxGraphic {
 		BufferUtils.copy(normalArray, 0, normalBuffer, 72);
 		normalBuffer.rewind();
 
+		//TODO Fix skybox, it looks horrible
 
-		//UV TEXTURE COORD ARRAY IS FILLED HERE
-		float[] uvArray = {0.3333f, 0.3333f,
-							0.6666f, 0.3333f,
-							0.6666f, 0.6666f,
-							0.3333f, 0.6666f,
-							
-							0.6666f, 0.6666f,
-							1.0f, 0.6666f,
-							1.0f, 1.0f,
-							0.6666f, 1.0f,
-							
-							0.0f, 0.3333f,
-							1.0f, 0.3333f,
-							1.0f, 0.6666f,
-							0.0f, 0.6666f,
-							
-							0.6666f, 0.3333f,
-							1.0f, 0.3333f,
-							1.0f, 0.6666f,
-							0.6666f, 0.6666f,
-							
-							0.0f, 0.0f,
-							2.0f, 0.0f,
-							2.0f, 2.0f,
-							0.0f, 2.0f,
-							
-							0.0f, 1.0f,
-							1.0f, 1.0f,
-							1.0f, 0.0f,
-							0.0f, 0.0f};
+		float[] uvArray = {
+				
+				0.25f, 0.6666f,
+				0.25f, 1f,
+				0.5f, 1f,
+				0.5f, 0.6666f, //Top
+				
+				0f, 0.3333f,
+				0f, 0.6666f,
+				0.25f, 0.6666f,
+				0.25f, 0.3333f, //left
+				
+				0.25f, 0.3333f,
+				0.25f, 0.6666f,
+				0.5f, 0.6666f,
+				0.5f, 0.3333f, //front
+				
+				0.5f, 0.3333f,
+				0.5f, 0.6666f,
+				0.75f, 0.6666f,
+				0.75f, 0.3333f, //right
+				
+				0.75f, 0.3333f,
+				0.75f, 0.6666f,
+				1f, 0.6666f,
+				1f, 0.3333f, //back
+				
+
+				0.25f, 0f,
+				0.25f, 0.3333f,
+				0.5f, 0.3333f,
+				0.5f, 0f //Bottom
+				
+		};
+
 
 		uvBuffer = BufferUtils.newFloatBuffer(48);
 		BufferUtils.copy(uvArray, 0, uvBuffer, 48);

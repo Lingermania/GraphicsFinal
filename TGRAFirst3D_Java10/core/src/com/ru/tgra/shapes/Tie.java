@@ -49,7 +49,7 @@ public class Tie extends Player {
 		//shader.setLightColor(s2, 0.4f, c2, 1.0f);
 		shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
-		shader.setGlobalAmbient(0.3f, 0.3f, 0.3f, 1);
+		shader.setGlobalAmbient(1f, 1f,1f, 1);
 
 		//shader.setMaterialDiffuse(s, 0.4f, c, 1.0f);
 		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
