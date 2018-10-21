@@ -43,7 +43,7 @@ public class Planet {
 		
 		
 		
-		SphereGraphic.drawSolidSphere(shader, null, null);
+		SphereGraphic.drawSolidSphere(shader, tex, null);
 		ModelMatrix.main.popMatrix();
 	}
 	

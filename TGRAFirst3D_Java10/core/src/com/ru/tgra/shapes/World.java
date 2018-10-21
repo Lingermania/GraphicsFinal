@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.ru.tgra.shapes.g3djmodel.MeshModel;
 
 public class World {
 	
@@ -13,6 +14,7 @@ public class World {
 	private Texture tex;
 	private ArrayList<Opponent> opponents;
 	public Tie player;
+	
 	
 	private Shader shader;
 	
@@ -41,6 +43,8 @@ public class World {
 		planets = new ArrayList<Planet>();
 		initializePlanets();
 		
+
+		
 		//Initialize texture
 		tex = new Texture(Gdx.files.internal("textures/Space.png"));
 		
@@ -58,13 +62,14 @@ public class World {
 	private void initializePlanets() {
 		//Texture tex, Point3D position, float radius, int orbits
 		
-		planets.add(new Planet(null, new Point3D(0, 0, 10), 10, 0, shader));
+		Texture p =  new Texture(Gdx.files.internal("textures/planet_Quom1200.png"));
+		planets.add(new Planet(p, new Point3D(0, 0, 10), 10, 0, shader));
 		
 	}
 	
 	private void drawPlanets() {
 		for(Planet p : planets) {
-			//p.draw();
+			p.draw();
 		}
 	}
 
@@ -111,15 +116,16 @@ public class World {
 
 		//
 		
-		Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-		drawSkyBox();
-		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+		
 		
 		player.draw();
 		//ModelMatrix.main.popMatrix();
 		
 		drawPlanets();
 		
+		//Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+		drawSkyBox();
+		//Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 		
 		//drawPyramids();
 		

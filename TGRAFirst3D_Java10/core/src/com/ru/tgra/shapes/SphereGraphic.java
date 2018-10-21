@@ -12,7 +12,7 @@ public class SphereGraphic {
 
 	private static FloatBuffer vertexBuffer;
 	private static FloatBuffer normalBuffer;
-
+	private static FloatBuffer uvBuffer;
 	
 	private static int stacks = 12;
 	private static int slices = 12;
@@ -23,6 +23,8 @@ public class SphereGraphic {
 
 		vertexCount = 0;
 		float[] array = new float[(stacks)*(slices+1)*6];
+		float[] uvArray = new float[(stacks)*(slices+1)*4];
+		
 		float stackInterval = (float)Math.PI / (float)stacks;
 		float sliceInterval = 2.0f*(float)Math.PI / (float)slices;
 		float stackAngle, sliceAngle;
@@ -36,9 +38,15 @@ public class SphereGraphic {
 				array[vertexCount*3 + 1] = (float)Math.cos(stackAngle);
 				array[vertexCount*3 + 2] = (float)Math.sin(stackAngle) * (float)Math.sin(sliceAngle);
 
+				uvArray[vertexCount*2] = (float)sliceCount/(float)slices;
+				uvArray[vertexCount*2 + 1] = (float)stackCount/(float)stacks;
+				
 				array[vertexCount*3 + 3] = (float)Math.sin(stackAngle + stackInterval) * (float)Math.cos(sliceAngle);
 				array[vertexCount*3 + 4] = (float)Math.cos(stackAngle + stackInterval);
 				array[vertexCount*3 + 5] = (float)Math.sin(stackAngle + stackInterval) * (float)Math.sin(sliceAngle);
+				
+				uvArray[vertexCount*2 + 2] = (float)(sliceCount) / (float)slices;
+				uvArray[vertexCount*2 + 3] = (float)(stackCount + 1)/(float)stacks;
 				
 				vertexCount += 2;
 			}
@@ -49,6 +57,10 @@ public class SphereGraphic {
 		normalBuffer = BufferUtils.newFloatBuffer(vertexCount*3);
 		normalBuffer.put(array);
 		normalBuffer.rewind();
+		uvBuffer = BufferUtils.newFloatBuffer(vertexCount*2);
+		uvBuffer.put(uvArray);
+		uvBuffer.rewind();
+		
 	}
 
 	public static void drawSolidSphere(Shader shader, Texture diffuseTexture, Texture specularTexture) {
@@ -57,7 +69,7 @@ public class SphereGraphic {
 
 		Gdx.gl.glVertexAttribPointer(shader.getVertexPointer(), 3, GL20.GL_FLOAT, false, 0, vertexBuffer);
 		Gdx.gl.glVertexAttribPointer(shader.getNormalPointer(), 3, GL20.GL_FLOAT, false, 0, normalBuffer);
-		//Gdx.gl.glVertexAttribPointer(shader.getUVPointer(), 2, GL20.GL_FLOAT, false, 0, uvBuffer);
+		Gdx.gl.glVertexAttribPointer(shader.getUVPointer(), 2, GL20.GL_FLOAT, false, 0, uvBuffer);
 
 		for(int i = 0; i < vertexCount; i += (slices+1)*2)
 		{
