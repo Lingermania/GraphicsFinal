@@ -89,40 +89,54 @@ public class BoxGraphic {
 		BufferUtils.copy(normalArray, 0, normalBuffer, 72);
 		normalBuffer.rewind();
 
-		//TODO Fix skybox, it looks horrible
-
 		float[] uvArray = {
+				
+				
+				0.25f, 0.3333f,
+				0.25f, 0f,
+				0.5f, 0f,
+				0.5f, 0.3333f, //top
+				
 				
 				0.25f, 0.6666f,
 				0.25f, 1f,
 				0.5f, 1f,
-				0.5f, 0.6666f, //Top
+				0.5f, 0.6666f,//bottom
 				
-				0f, 0.3333f,
-				0f, 0.6666f,
-				0.25f, 0.6666f,
-				0.25f, 0.3333f, //left
+				
 				
 				0.25f, 0.3333f,
-				0.25f, 0.6666f,
-				0.5f, 0.6666f,
-				0.5f, 0.3333f, //front
-				
 				0.5f, 0.3333f,
 				0.5f, 0.6666f,
-				0.75f, 0.6666f,
-				0.75f, 0.3333f, //right
+				0.25f, 0.6666f,
 				
+				
+				//front*/
+				
+				
+				1f, 0.3333f,
 				0.75f, 0.3333f,
 				0.75f, 0.6666f,
-				1f, 0.6666f,
-				1f, 0.3333f, //back
+				1f, 0.6666f, //back
+				
+				
+				
+				0.25f, 0.3333f,
+				0.25f, 0.6666f,
+				0f, 0.6666f,
+				0f, 0.3333f, //left
+				
+			
+				
+				0.5f, 0.3333f,
+				0.5f, 0.6666f,
+				0.75f, 0.6666f,
+				0.75f, 0.3333f/*, //right
+				
+				
 				
 
-				0.25f, 0f,
-				0.25f, 0.3333f,
-				0.5f, 0.3333f,
-				0.5f, 0f //Bottom
+				*/
 				
 		};
 

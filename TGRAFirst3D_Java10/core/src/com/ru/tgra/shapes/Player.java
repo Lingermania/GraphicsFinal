@@ -53,7 +53,7 @@ public class Player {
 	
 	
 	public void updatePhysics(float dt) {
-		this.angleZ = phys.avgZ()*45;
+		this.angleZ = phys.avgZ()*90;
 		this.angleY -= phys.avgZ()*45*dt;
 		
 		float physSpeed = phys.avgSpeed()*0.1f;
@@ -156,7 +156,7 @@ public class Player {
 		
 
 		//System.out.println(this.angleX);
-		if (this.angleX + angle*dt < 85 && this.angleX + angle*dt > -85) {
+		if (this.angleX + angle*dt < 89 && this.angleX + angle*dt > -89) {
 			this.angleX += angle*dt;
 		}
 		
