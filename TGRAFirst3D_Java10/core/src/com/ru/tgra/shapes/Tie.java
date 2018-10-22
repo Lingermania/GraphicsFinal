@@ -20,7 +20,7 @@ public class Tie extends Player {
 	
 	public void shoot() {
 		lasers.add(new Laser(new Point3D(position.x, position.y, position.z),
-				  Vector3D.scale(direction, 15), 
+				  Vector3D.scale(direction, 80), 
 				  new Point3D(angleX, angleY, angleZ), 
 				  shader));
 	}

@@ -48,25 +48,45 @@ public class World {
 		//Initialize texture
 		tex = new Texture(Gdx.files.internal("textures/Space.png"));
 		
-		//Initialize opponents
-		opponents = new ArrayList<Opponent>();
+		
 		
 		//Initialize player
 		player = new Tie(new Point3D(0,0,0), new Vector3D(0,0,-1), shader); //Initialize in center of world
 		player.setCamera(cam);
 		
+		//Initialize opponents
+		opponents = new ArrayList<Opponent>();
+		initializeOpponents();
+		
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
 	}
 	
+	private void initializeOpponents() {
+		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player));
+	}
+	
+	private void simulateOpponents(float dt) {
+		for (Opponent o : opponents) {
+			o.simulate(-dt);
+		}
+	}
 	private void initializePlanets() {
 		//Texture tex, Point3D position, float radius, int orbits
 		
 		Texture p =  new Texture(Gdx.files.internal("textures/planet_Quom1200.png"));
-		planets.add(new Planet(p, new Point3D(0, 0, 10), 10, 0, shader));
+		planets.add(new Planet(p, new Point3D(100, 0, 100), 100, 0, shader));
+		
+		Texture p2 = new Texture(Gdx.files.internal("textures/deathstar.jpg"));
+		planets.add(new Planet(p2, new Point3D(300, 300, 400), 120, 0, shader));
 		
 	}
 	
+	private void drawOpponents() {
+		for(Opponent o : opponents) {
+			o.draw();
+		}
+	}
 	private void drawPlanets() {
 		for(Planet p : planets) {
 			p.draw();
@@ -95,6 +115,7 @@ public class World {
 	
 	public void update(float dt) {
 		
+		simulateOpponents(dt);
 		player.simulateLasers(dt);
 		player.rotateXYZ();
 		player.neutralZ();
@@ -120,8 +141,8 @@ public class World {
 		
 		player.draw();
 		//ModelMatrix.main.popMatrix();
-		
-		drawPlanets();
+		drawOpponents();
+		//drawPlanets();
 		
 		//Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
 		drawSkyBox();

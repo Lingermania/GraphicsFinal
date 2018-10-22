@@ -24,7 +24,9 @@ public class Vector3D {
 		y *= S;
 		z *= S;
 	}
+	
 
+	
 	public void add(Vector3D v2)
 	{
 		x += v2.x;

@@ -14,8 +14,8 @@ public class SphereGraphic {
 	private static FloatBuffer normalBuffer;
 	private static FloatBuffer uvBuffer;
 	
-	private static int stacks = 12;
-	private static int slices = 12;
+	private static int stacks = 24;
+	private static int slices = 24;
 	private static int vertexCount;
 	
 	public static void create() {
