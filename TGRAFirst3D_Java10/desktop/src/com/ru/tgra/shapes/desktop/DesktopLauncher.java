@@ -9,8 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
 		config.title = "Lab1"; // or whatever you like
-		config.width = 1000;  //experiment with
-		config.height = 1000;  //the window size
+		config.width = 1920;  //experiment with
+		config.height = 1080;  //the window size
 		config.x = 150;
 		config.y = 50;
 

@@ -13,22 +13,70 @@ public class Player {
 	protected Point3D  position;
 	protected Camera cam;
 	protected float cameraUpAngle;
-	protected float angleY, angleX, angleZ;
+	protected float angleY, angleX, angleZ, radius;
 	protected PlayerPhysics phys;
 	protected ArrayList<Laser> lasers;
+	protected World world;
 	
-	public Player(Point3D position, Vector3D direction) {
+	protected boolean rotateSeq;
+	protected float   rotateYSeq;
+	
+	public Player(Point3D position, Vector3D direction, World world) {
 		this.direction = direction;
 		this.originalDirection = direction;
 		this.position  = position;
 		this.angleY    = 0.0f;
 		this.angleZ    = 0.0f;
 		this.angleX    = 0.0f;
+		this.world     = world;
+		this.radius    = 1;
+		this.rotateSeq = false;
+		this.rotateYSeq = 0;
 		
 		this.cameraUpAngle = 0.4f;
 		
 		phys = new PlayerPhysics();
 		lasers = new ArrayList<Laser>();
+	}
+	
+	
+	private boolean sphereCollision(Point3D position, float radius, Point3D playerPosition) {
+		float length = Vector3D.difference(position, playerPosition).length();
+		
+		return length <= radius + this.radius -1;
+	}
+	
+	private Planet planetCollision(Point3D position) {
+		//Planets are static
+		
+		boolean val = false;
+		
+		for(Planet p : world.planets) {
+			//Point3D planetCenter = new Point3D(p.position().x, p.position().y + p.radius(), p.position().z);
+			val |= sphereCollision(p.position(), p.radius(), position);
+			if (val == true) {
+				return p;
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	private boolean playerCollision() {
+		boolean val = false;
+		//TODO implement
+		return val;
+	}
+	
+	private boolean collision() {
+		boolean val = false;
+		
+		//val |= planetCollision();
+		//val |= playerCollision();
+		
+		
+		return false;
 	}
 	
 	public Point3D position() {
@@ -52,16 +100,20 @@ public class Player {
 	}
 	
 	
-	public void updatePhysics(float dt) {
+	public void updatePhysics(float dt, boolean movePhysics) {
 		this.angleZ = phys.avgZ()*90;
 		this.angleY -= phys.avgZ()*45*dt;
 		
 		float physSpeed = phys.avgSpeed()*0.6f;
 		//System.out.println(physSpeed);
 		
-		position.x += direction.x*physSpeed;
-		position.y += direction.y*physSpeed;
-		position.z += direction.z*physSpeed;
+		
+		if(movePhysics) {
+			position.x += direction.x*physSpeed;
+			position.y += direction.y*physSpeed;
+			position.z += direction.z*physSpeed;
+		}
+		
 	}
 	
 	public void simulateLasers(float dt) {
@@ -72,12 +124,65 @@ public class Player {
 	
 	public void move(float dt) {
 		//Check for collision
-	
-		position.x += direction.x*dt;
-		position.y += direction.y*dt;
-		position.z += direction.z*dt;
+		float swayConstant = 1500;
+		float scaleConstant = 1f;
+		boolean flag = true;
+		float physSpeed = phys.avgSpeed()*0.6f;
 		
-		updatePhysics(dt);
+		
+		//position.x += direction.x*dt*physSpeed;
+		//position.y += direction.y*dt*physSpeed;
+		//position.z += direction.z*dt*physSpeed;
+		
+		//System.out.println(direction.x*dt* swayConstant);
+		Point3D collisionPoint = new Point3D(position.x + direction.x*dt* swayConstant,
+											 position.y+ direction.x*dt* swayConstant,
+											 position.z+ direction.x*dt* swayConstant);
+		
+		
+		Planet coll = planetCollision(collisionPoint);
+		if (coll != null) {
+			//make player sway from planet
+			Vector3D push = Vector3D.difference(coll.position(), collisionPoint);
+			Vector3D dir  = new Vector3D(direction.x, direction.y, direction.z);
+			dir.normalize();
+			push.normalize();
+			
+			float yaw = Math.abs((float)Math.atan2(push.x, push.z));
+			float pitch = Math.abs((float)Math.asin(-push.y));
+			
+			float diryaw = (float)Math.atan2(dir.x, dir.z);
+			float dirpitch = (float)Math.asin(-dir.y);
+			
+			
+			
+			yaw = yaw*(180.0f/(float)Math.PI);
+			pitch = pitch*(180.0f/(float)Math.PI);
+			
+			System.out.println(yaw + ", " + pitch);
+			rotateY(yaw*diryaw, dt);
+			rotateX(pitch*dirpitch,dt);
+			
+			//rotateY(90, dt);
+			rotateSeq = true;
+			position.x += direction.x*dt*physSpeed*0.6f;
+			position.y += direction.y*dt*physSpeed*0.6f;
+			position.z += direction.z*dt*physSpeed*0.6f;
+			
+			flag = false;
+			
+		}
+		else {
+			position.x += direction.x*dt*physSpeed;
+			position.y += direction.y*dt*physSpeed;
+			position.z += direction.z*dt*physSpeed;
+		}
+		
+		
+		
+		//System.out.println(flag);
+		updatePhysics(dt, flag);
+		
 		
 	}
 	
@@ -110,7 +215,7 @@ public class Player {
 		
 		//Some minor physics
 		this.angleZ = phys.avgZ()*20;
-		updatePhysics(dt);
+		updatePhysics(dt, false);
 
 	}
 	

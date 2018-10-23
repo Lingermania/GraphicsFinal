@@ -9,8 +9,8 @@ public class Tie extends Player {
 	private MeshModel model;
 	private Shader shader;
 	
-	public Tie(Point3D position, Vector3D direction, Shader shader) {
-		super(position, direction);
+	public Tie(Point3D position, Vector3D direction, Shader shader, World world) {
+		super(position, direction, world);
 		
 		model = G3DJModelLoader.loadG3DJFromFile("TIEfighter.g3dj");
 		this.shader = shader;

@@ -70,9 +70,9 @@ public class Opponent extends Player{
 	private Shader shader;
 	private MeshModel model;
 	private Player target;
-	public Opponent(Point3D position, Vector3D direction, Shader shader, Player target) {
+	public Opponent(Point3D position, Vector3D direction, Shader shader, Player target, World world) {
 		
-		super(position, direction);
+		super(position, direction, world);
 		this.shader = shader;
 		this.target = target;
 		
@@ -118,7 +118,7 @@ public class Opponent extends Player{
 				new Vector3D(node.direction.x, node.direction.y, node.direction.z));
 		
 		xNode.move = "ROTX";
-		xNode.input = xAngle;
+		xNode.input = -1;
 		xNode.parent = node;
 		xNode.depth = node.depth +1;
 		xNode.xAngle = node.xAngle;
@@ -127,7 +127,7 @@ public class Opponent extends Player{
 				new Vector3D(node.direction.x, node.direction.y, node.direction.z));
 		
 		xNodeD.move = "ROTX";
-		xNodeD.input = -xAngle;
+		xNodeD.input = 1;
 		xNodeD.parent = node;
 		xNodeD.depth = node.depth +1;
 		xNodeD.xAngle = node.xAngle;
@@ -155,16 +155,16 @@ public class Opponent extends Player{
 		float s       = -(float)Math.sin(radians);
 		
 		
-		radians = (-xAngle * (float)Math.PI / 180.0f);
+		radians = (xAngle * (float)Math.PI / 180.0f);
 		c       = (float)Math.cos(radians);
 		s       = -(float)Math.sin(radians);
 		
 		xNode.direction = new Vector3D(xNode.direction.x,
 									  c*xNode.direction.y + s*xNode.direction.z,
 				 					  -s*xNode.direction.y + c*xNode.direction.z);
-		xNode.score =  (score(xNode) + node.score)/2.0f;
+		xNode.score =  score(xNode);
 		
-		radians = (xAngle * (float)Math.PI / 180.0f);
+		radians = (-xAngle * (float)Math.PI / 180.0f);
 		c       = (float)Math.cos(radians);
 		s       = -(float)Math.sin(radians);
 		
@@ -185,33 +185,40 @@ public class Opponent extends Player{
 		yNode.score = score(yNode);
 		
 		res.add(moveNode);
-		xNode.xAngle += -xAngle;
+		xNode.xAngle -= xAngle;
 		xNodeD.xAngle += xAngle;
 		
-		if (xNode.xAngle > -88f) {
+		if (xNode.xAngle > -90f) {
+			//TODO fix this if we want x rotation for AI
 			//System.out.println("XNODE: " + xNode.input);
 			//res.add(xNode);
 		}
-		if (xNodeD.xAngle < 88f) {
+		if (xNodeD.xAngle < 90f) {
+			//TODO fix this if we want x rotation for AI
 			//System.out.println("XNODED: " + xNodeD.input);
 			//res.add(xNodeD);
 		}
+		//res.add(xNode);
+		//res.add(xNodeD);
 		res.add(yNode);
 		
 		return res;
 	}
 	
 	@Override
-	public void updatePhysics(float dt) {
+	public void updatePhysics(float dt, boolean movePhysics) {
 		this.angleZ = phys.avgZ()*90;
 		this.angleY -= phys.avgZ()*45*dt;
 		
 		float physSpeed = phys.avgSpeed()*0.1f;
 		//System.out.println(physSpeed);
 		
-		position.x += direction.x*physSpeed;
-		position.y += direction.y*physSpeed;
-		position.z += direction.z*physSpeed;
+		if(movePhysics) {
+			position.x += direction.x*physSpeed;
+			position.y += direction.y*physSpeed;
+			position.z += direction.z*physSpeed;
+		}
+		
 	}
 	
 	public Node search(float dt) {
@@ -231,7 +238,7 @@ public class Opponent extends Player{
 		Queue<Node> openSet = new ArrayDeque<Node>();
 		openSet.add(startNode);
 		
-		int maxIter = 128;
+		int maxIter = 512;
 		int iter = 0;
 		
 		while(!openSet.isEmpty()) {
@@ -263,7 +270,7 @@ public class Opponent extends Player{
 		
 		float maxScore = -1000000f;
 		Node maxNode = startNode;
-		//System.out.println(openSet.size());
+		System.out.println(openSet.size());
 		for(Node n : closedSet) {
 			//System.out.println(n.move + ", " + n.score);
 			//System.out.println(n.score +",,," + maxScore);
@@ -274,10 +281,10 @@ public class Opponent extends Player{
 				maxScore = n.score;
 			}
 		}
-		System.out.println("MaxNode score: " + maxNode.score);
+		//System.out.println("MaxNode score: " + maxNode.score);
 		int i = 0;
 		while(maxNode.parent != null) {
-			System.out.println("MOVE: " + maxNode.move +", " + i);
+			//System.out.println("MOVE: " + maxNode.move +", " + maxNode.input);
 			i++;
 			if (maxNode.parent.parent == null) {
 				break;
@@ -294,7 +301,7 @@ public class Opponent extends Player{
 		
 		Node mov = search(dt);
 		while (mov.parent != null) {
-			System.out.println(mov.move + ", " + mov.input);
+			//System.out.println(mov.move + ", " + mov.input);
 			if (mov.move.equals("MOV")) {
 				move(-dt);
 				forward();
@@ -302,7 +309,9 @@ public class Opponent extends Player{
 				
 			}
 			else if (mov.move.equals("ROTX")) {
+				
 				rotateX(90 * mov.input, dt);
+				System.out.println("ROTX: " + mov.input);
 			}
 			else if(mov.move.equals("ROTY")) {
 				rotateY(90, dt);
@@ -311,7 +320,7 @@ public class Opponent extends Player{
 			
 			mov = mov.parent;
 		}
-		updatePhysics(dt);
+		updatePhysics(dt, true);
 		rotateXYZ();
 		
 	
