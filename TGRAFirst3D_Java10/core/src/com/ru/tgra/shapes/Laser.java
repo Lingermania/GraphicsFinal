@@ -26,9 +26,9 @@ public class Laser {
 	public void simulate(float dt, World world) {
 		
 		if (iterations < maxIterations) {
-			this.position.x -= direction.x * dt;
-			this.position.y -= direction.y * dt;
-			this.position.z -= direction.z * dt;
+			this.position.x -= direction.x * dt * 2;
+			this.position.y -= direction.y * dt* 2;
+			this.position.z -= direction.z * dt * 2;
 			
 			for(Opponent p : world.opponents) {
 				if(playerCollision(p) && p.alive) {

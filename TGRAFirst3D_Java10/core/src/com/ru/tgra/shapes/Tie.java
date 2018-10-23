@@ -1,5 +1,12 @@
 package com.ru.tgra.shapes;
 
+import java.util.Date;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.ru.tgra.shapes.g3djmodel.G3DJModelLoader;
 import com.ru.tgra.shapes.g3djmodel.MeshModel;
@@ -8,21 +15,61 @@ public class Tie extends Player {
 	
 	private MeshModel model;
 	private Shader shader;
+	private Sound laser;
+	private boolean canShoot;
+	private Timer timer;
 	
 	public Tie(Point3D position, Vector3D direction, Shader shader, World world) {
 		super(position, direction, world);
 		
 		model = G3DJModelLoader.loadG3DJFromFile("TIEfighter.g3dj");
+		laser = Gdx.audio.newSound(Gdx.files.internal("sounds/Quadlaser turret fire.mp3"));
 		this.shader = shader;
-		
+		this.canShoot = true;
+		timer = new Timer();
 	}
 	
 	
 	public void shoot() {
-		lasers.add(new Laser(new Point3D(position.x, position.y, position.z),
-				  Vector3D.scale(direction, 80), 
-				  new Point3D(angleX, angleY, angleZ), 
-				  shader));
+		float t = (new Date()).getTime();
+		
+		System.out.println(t);
+		if (canShoot) {
+			Random rand = new Random();
+			laser.play(0.5f);
+			
+			for(int i = 0; i < 4; i++) {
+				float a0 = (float)Math.pow(-1, rand.nextInt(2));
+				float a1 = (float)Math.pow(-1, rand.nextInt(2));
+				float a2 = (float)Math.pow(-1, rand.nextInt(2));
+	
+				Point3D pos = new Point3D(position.x + a0*rand.nextFloat()*0.8f, position.y+a1*rand.nextFloat()*0.8f, position.z+a2*rand.nextFloat()*0.8f);
+				Point3D augmentedPlayerPosition = new Point3D(position.x, position.y, position.z);
+				
+				augmentedPlayerPosition.x -= direction.x*10;
+				augmentedPlayerPosition.y -= direction.y*10;
+				augmentedPlayerPosition.z -= direction.z*10;
+				
+				Vector3D direction = Vector3D.difference(pos,augmentedPlayerPosition);
+				direction.normalize();
+				lasers.add(new Laser(pos,
+						  Vector3D.scale(direction, 80), 
+						  new Point3D(angleX, angleY, angleZ), 
+						  shader));
+			}
+			canShoot = false;
+			
+			timer.schedule(new TimerTask()
+					{
+						@Override
+						public void run() {
+							canShoot = true;
+						}
+					}
+					, 750);
+		}
+		
+		
 	}
 	
 	public void drawLasers() {

@@ -70,9 +70,16 @@ public class World {
 		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(300,-25,10), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(10,15,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(10,10,300), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(35,10,300), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(200,10,300), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,80,300), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(35,100,300), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(200,2,500), new Vector3D(0,0,-1), shader, player, this));
+		
+		opponents.add(new Opponent(new Point3D(1212,231,1231), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(300,-25,12), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(-1231,-15,-1111), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,-80,300), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(35,-123,-3200), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(-311,2,5000), new Vector3D(0,0,-1), shader, player, this));
 	}
 	
 	

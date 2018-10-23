@@ -41,7 +41,7 @@ public class Explosion {
 		
 		for(int i = 0; i < particles.length; i++) {
 			Vector3D direction = new Vector3D((float)Math.pow(-1, rand.nextInt(2))*rand.nextFloat(),
-					(float)Math.pow(-1, rand.nextInt(2))*rand.nextFloat(),
+					(float)Math.pow(-1, rand.nextInt(2))*rand.nextFloat()*0.1f,
 					(float)Math.pow(-1, rand.nextInt(2))*rand.nextFloat());
 			
 			direction.normalize();

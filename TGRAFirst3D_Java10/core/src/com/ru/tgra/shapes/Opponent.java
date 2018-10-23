@@ -243,7 +243,7 @@ public class Opponent extends Player{
 		Queue<Node> openSet = new ArrayDeque<Node>();
 		openSet.add(startNode);
 		
-		int maxIter = 512;
+		int maxIter = 128;
 		int iter = 0;
 		
 		while(!openSet.isEmpty()) {

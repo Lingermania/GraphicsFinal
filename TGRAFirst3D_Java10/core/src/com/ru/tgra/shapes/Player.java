@@ -116,7 +116,7 @@ public class Player {
 		this.angleZ = phys.avgZ()*90;
 		this.angleY -= phys.avgZ()*45*dt;
 		
-		float physSpeed = phys.avgSpeed()*0.6f;
+		float physSpeed = phys.avgSpeed()*2f;
 		//System.out.println(physSpeed);
 		
 		
