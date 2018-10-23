@@ -50,7 +50,7 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 
 		shader = new Shader();
 
-		world = new World(new Point3D(0,0,0), shader, 100000);
+		world = new World(new Point3D(0,0,0), shader, 1000000);
 	}
 
 	private void input()
@@ -90,10 +90,12 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 			//cam.walkForward(-3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-			world.cam.slide(0, 3.0f * deltaTime, 0);
+			world.test_exp();
+			//world.cam.slide(0, 3.0f * deltaTime, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-			world.cam.slide(0, -3.0f * deltaTime, 0);
+			
+			//world.cam.slide(0, -3.0f * deltaTime, 0);
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {

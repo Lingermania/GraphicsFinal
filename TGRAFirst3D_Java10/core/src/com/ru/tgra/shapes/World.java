@@ -14,7 +14,7 @@ public class World {
 	private Texture tex;
 	public ArrayList<Opponent> opponents;
 	public Tie player;
-	
+	Explosion explosion;
 	
 	private Shader shader;
 	
@@ -58,6 +58,7 @@ public class World {
 		
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
+		this.explosion = new Explosion(player.position, shader);
 	}
 	
 	private void initializeOpponents() {
@@ -78,10 +79,10 @@ public class World {
 		//Texture tex, Point3D position, float radius, int orbits
 		
 		Texture p =  new Texture(Gdx.files.internal("textures/planet_Quom1200.png"));
-		//planets.add(new Planet(p, new Point3D(400, 0, 400), 400, 0, shader));
+		planets.add(new Planet(p, new Point3D(90000, 90000, 50000), 40000, 0, shader));
 		
 		Texture p2 = new Texture(Gdx.files.internal("textures/deathstar.jpg"));
-		planets.add(new Planet(p2, new Point3D(400, 0, 400), 400, 0, shader));
+		planets.add(new Planet(p2, new Point3D(10000, 100, 10000), 4000, 0, shader));
 		
 	}
 	
@@ -91,7 +92,7 @@ public class World {
 		}
 	}
 	private void drawPlanets(float dt) {
-		Point3D translate = null;
+		/*Point3D translate = null;
 		for (Planet p : planets) {
 			translate = p.getTranslation(player, dt);
 			if (translate.x == 0 && translate.y == 0 && translate.z == 0) break;
@@ -100,9 +101,9 @@ public class World {
 			for(Planet p : planets) {
 				//p.translate(translate, dt);
 			}
-		}
+		}*/
 		for(Planet p : planets) {
-			p.draw();
+			p.draw(player, dt);
 		}
 	}
 
@@ -126,7 +127,13 @@ public class World {
 		ModelMatrix.main.popMatrix();
 	}
 	
+	public void test_exp() {
+		explosion.simulate();
+		//explosion.draw();
+	}
+	
 	public void update(float dt) {
+		
 		
 		this.position = new Point3D(player.position.x, player.position.y, player.position.z);
 		simulateOpponents(dt);
@@ -149,7 +156,7 @@ public class World {
 		shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
 
 
-		//
+		
 		
 		
 		
@@ -164,14 +171,17 @@ public class World {
 		
 		//drawPyramids();
 		
-	
+		explosion.draw();
+		
 	}
 	
 	private void drawPyramids()
 	{
 		ModelMatrix.main.loadIdentityMatrix();
 		int maxLevel = 9;
-
+		
+		
+		
 		for(int pyramidNr = 0; pyramidNr < 2; pyramidNr++)
 		{
 			ModelMatrix.main.pushMatrix();

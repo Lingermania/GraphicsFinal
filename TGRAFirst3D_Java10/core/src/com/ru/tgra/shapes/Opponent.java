@@ -225,8 +225,8 @@ public class Opponent extends Player{
 		//dt is not accounted for in the search
 		Node startNode = new Node(new Point3D(position.x, position.y, position.z), new Vector3D(direction.x, direction.y, direction.z));
 		startNode.xAngle = angleX;
-		System.out.println("Starting at angleX: " + angleX);
-		System.out.println(score(startNode));
+		//System.out.println("Starting at angleX: " + angleX);
+		//System.out.println(score(startNode));
 		startNode.move = "None";
 		startNode.input = -1;
 		startNode.score = score(startNode);
@@ -270,7 +270,7 @@ public class Opponent extends Player{
 		
 		float maxScore = -1000000f;
 		Node maxNode = startNode;
-		System.out.println(openSet.size());
+		//System.out.println(openSet.size());
 		for(Node n : closedSet) {
 			//System.out.println(n.move + ", " + n.score);
 			//System.out.println(n.score +",,," + maxScore);

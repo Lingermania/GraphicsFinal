@@ -21,6 +21,7 @@ public class Player {
 	protected boolean rotateSeq;
 	protected float   rotateYSeq;
 	
+	
 	public Player(Point3D position, Vector3D direction, World world) {
 		this.direction = direction;
 		this.originalDirection = direction;
@@ -34,6 +35,7 @@ public class Player {
 		this.rotateYSeq = 0;
 		
 		this.cameraUpAngle = 0.4f;
+		
 		
 		phys = new PlayerPhysics();
 		lasers = new ArrayList<Laser>();
@@ -124,64 +126,15 @@ public class Player {
 	
 	public void move(float dt) {
 		//Check for collision
-		float swayConstant = 1500;
-		float scaleConstant = 1f;
-		boolean flag = true;
+
 		float physSpeed = phys.avgSpeed()*0.6f;
 		
 		
-		//position.x += direction.x*dt*physSpeed;
-		//position.y += direction.y*dt*physSpeed;
-		//position.z += direction.z*dt*physSpeed;
+		position.x += direction.x*dt;//*physSpeed;
+		position.y += direction.y*dt;//*physSpeed;
+		position.z += direction.z*dt;//*physSpeed;
 		
-		//System.out.println(direction.x*dt* swayConstant);
-		Point3D collisionPoint = new Point3D(position.x + direction.x*dt* swayConstant,
-											 position.y+ direction.x*dt* swayConstant,
-											 position.z+ direction.x*dt* swayConstant);
-		
-		
-		Planet coll = planetCollision(collisionPoint);
-		if (coll != null) {
-			//make player sway from planet
-			Vector3D push = Vector3D.difference(coll.position(), collisionPoint);
-			Vector3D dir  = new Vector3D(direction.x, direction.y, direction.z);
-			dir.normalize();
-			push.normalize();
-			
-			float yaw = Math.abs((float)Math.atan2(push.x, push.z));
-			float pitch = Math.abs((float)Math.asin(-push.y));
-			
-			float diryaw = (float)Math.atan2(dir.x, dir.z);
-			float dirpitch = (float)Math.asin(-dir.y);
-			
-			
-			
-			yaw = yaw*(180.0f/(float)Math.PI);
-			pitch = pitch*(180.0f/(float)Math.PI);
-			
-			System.out.println(yaw + ", " + pitch);
-			rotateY(yaw*diryaw, dt);
-			rotateX(pitch*dirpitch,dt);
-			
-			//rotateY(90, dt);
-			rotateSeq = true;
-			position.x += direction.x*dt*physSpeed*0.6f;
-			position.y += direction.y*dt*physSpeed*0.6f;
-			position.z += direction.z*dt*physSpeed*0.6f;
-			
-			flag = false;
-			
-		}
-		else {
-			position.x += direction.x*dt*physSpeed;
-			position.y += direction.y*dt*physSpeed;
-			position.z += direction.z*dt*physSpeed;
-		}
-		
-		
-		
-		//System.out.println(flag);
-		updatePhysics(dt, flag);
+		updatePhysics(dt, true);
 		
 		
 	}
@@ -219,6 +172,9 @@ public class Player {
 
 	}
 	
+	private void explode() {
+		
+	}
 
 	public void rotateXYZ() {
 		//Set direction to rotation about angleX, angleY and angleZ

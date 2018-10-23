@@ -52,7 +52,7 @@ public class Planet {
 		
 	}
 	
-	public void draw() {
+	public void draw(Player p, float dt) {
 		
 		
 		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
@@ -61,8 +61,21 @@ public class Planet {
 		
 		ModelMatrix.main.pushMatrix();
 		
-		ModelMatrix.main.addTranslation(position.x, position.y, position.z);
-		ModelMatrix.main.addScale(radius, radius, radius);
+		float len = Vector3D.difference(p.position, position).length();
+		//System.out.println(len - radius);
+		if (len - radius*2 < 30) {
+			position.x += p.position.x*dt;
+			position.y += p.position.y*dt;
+			position.z += p.position.z*dt;
+			//ModelMatrix.main.addTranslation(position.x + p.position.x, position.y + p.position.y, position.z + p.position.z);
+		}
+		else {
+			
+		}
+		
+		ModelMatrix.main.addTranslation(position.x, position.y , position.z);
+		
+		ModelMatrix.main.addScale(radius, radius*2, radius);
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 		
 		
