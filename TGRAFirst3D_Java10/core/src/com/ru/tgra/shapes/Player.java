@@ -21,6 +21,9 @@ public class Player {
 	protected boolean rotateSeq;
 	protected float   rotateYSeq;
 	
+	public boolean alive;
+	private boolean exploding;
+	
 	public Player(Point3D position, Vector3D direction, World world) {
 		this.direction = direction;
 		this.originalDirection = direction;
@@ -37,6 +40,9 @@ public class Player {
 		
 		phys = new PlayerPhysics();
 		lasers = new ArrayList<Laser>();
+		
+		alive=true;
+		exploding=false;
 	}
 	
 	
