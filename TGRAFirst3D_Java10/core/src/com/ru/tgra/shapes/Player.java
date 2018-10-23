@@ -40,7 +40,7 @@ public class Player {
 		this.rotateSeq = false;
 		this.rotateYSeq = 0;
 		
-		this.cameraUpAngle = 0.4f;
+		this.cameraUpAngle = 0.8f;
 		
 		
 		phys = new PlayerPhysics();
@@ -108,7 +108,7 @@ public class Player {
 		//System.out.println(cam.eye.x + "," + cam.eye.y + ", " + cam.eye.z);
 		//cam.look(new Point3D(0,2,0), player.position, new Vector3D(0,1,0));
 		
-		cam.look(Point3D.add(new Point3D(position.x,position.y + cameraUpAngle, position.z),Vector3D.scale(direction, 2f)), position, new Vector3D(0,1,0));
+		cam.look(Point3D.add(new Point3D(position.x,position.y + cameraUpAngle, position.z),Vector3D.scale(direction, 3f)), position, new Vector3D(0,1,0));
 	}
 	
 	

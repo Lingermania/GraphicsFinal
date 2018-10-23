@@ -46,9 +46,9 @@ public class Tie extends Player {
 				Point3D pos = new Point3D(position.x + a0*rand.nextFloat()*0.8f, position.y+a1*rand.nextFloat()*0.8f, position.z+a2*rand.nextFloat()*0.8f);
 				Point3D augmentedPlayerPosition = new Point3D(position.x, position.y, position.z);
 				
-				augmentedPlayerPosition.x -= direction.x*10;
-				augmentedPlayerPosition.y -= direction.y*10;
-				augmentedPlayerPosition.z -= direction.z*10;
+				augmentedPlayerPosition.x -= direction.x*100;
+				augmentedPlayerPosition.y -= direction.y*100;
+				augmentedPlayerPosition.z -= direction.z*100;
 				
 				Vector3D direction = Vector3D.difference(pos,augmentedPlayerPosition);
 				direction.normalize();
