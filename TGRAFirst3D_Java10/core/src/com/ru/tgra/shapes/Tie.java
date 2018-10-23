@@ -38,8 +38,7 @@ public class Tie extends Player {
 
 		shader.setLightPosition(position.x, position.y + 2, position.z, 1.0f);
 
-		if (this.alive)
-		{
+		
 			//shader.setSpotDirection(s2, -0.3f, c2, 0.0f);
 			//shader.setSpotDirection(-cam.n.x, -cam.n.y, -cam.n.z, 0.0f);
 			shader.setSpotExponent(0.0f);
@@ -59,7 +58,8 @@ public class Tie extends Player {
 			shader.setMaterialEmission(0, 0, 0, 1);
 			shader.setShininess(50.0f);
 			
-		
+		if (this.alive)
+		{
 			ModelMatrix.main.addTranslation(position.x, position.y, position.z);
 			
 			ModelMatrix.main.addRotationY(angleY);
