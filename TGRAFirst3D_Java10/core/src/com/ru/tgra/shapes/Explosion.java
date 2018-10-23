@@ -29,7 +29,7 @@ public class Explosion {
 	public Explosion(Point3D position, Shader shader) {
 		this.position = position;
 		this.shader = shader;
-		this.maxSimulations = 100;
+		this.maxSimulations = 50;
 		this.simulations = 0;
 		
 		particles = new Particle[10000];
@@ -45,7 +45,8 @@ public class Explosion {
 					(float)Math.pow(-1, rand.nextInt(2))*rand.nextFloat());
 			
 			direction.normalize();
-			direction.scale(rand.nextFloat());
+			
+			direction.scale(rand.nextFloat()/0.02f);
 			particles[i] = new Particle(new Point3D(position.x, position.y, position.z),
 										direction,
 										rand.nextFloat());
@@ -76,7 +77,7 @@ public class Explosion {
 				
 				
 				ModelMatrix.main.addTranslation(p.position.x, p.position.y, p.position.z);
-				ModelMatrix.main.addScale(rand.nextFloat()*0.3f, rand.nextFloat()*0.3f, rand.nextFloat()*0.3f);
+				ModelMatrix.main.addScale(rand.nextFloat()*0.1f, rand.nextFloat()*0.1f, rand.nextFloat()*0.3f);
 				shader.setMaterialDiffuse(1.0f, rand.nextFloat(),0f, 1.0f);
 				shader.setMaterialSpecular(1.0f, rand.nextFloat(),0f, 1.0f);
 				

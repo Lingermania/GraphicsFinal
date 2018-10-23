@@ -3,6 +3,7 @@ package com.ru.tgra.shapes;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.ru.tgra.shapes.g3djmodel.MeshModel;
@@ -14,6 +15,7 @@ public class World {
 	private Texture tex;
 	public ArrayList<Opponent> opponents;
 	public Tie player;
+	private Sound sound;
 	//Explosion explosion;
 	
 	private Shader shader;
@@ -59,13 +61,18 @@ public class World {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
 		//this.explosion = new Explosion(player.position, shader);
+		
+		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/theme.mp3"));
+		sound.play(1f);
 	}
 	
 	private void initializeOpponents() {
 		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(300,-25,10), new Vector3D(0,0,-1), shader, player, this));
-		//opponents.add(new Opponent(new Point3D(10,15,10), new Vector3D(0,0,-1), shader, player, this));
-		//opponents.add(new Opponent(new Point3D(10,10,300), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,15,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,10,300), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(35,10,300), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(200,10,300), new Vector3D(0,0,-1), shader, player, this));
 	}
 	
 	
