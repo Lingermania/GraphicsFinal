@@ -14,10 +14,23 @@ public class Laser {
 	}
 	
 	
-	public void simulate(float dt) {
+	private boolean playerCollision(Player p) {
+		float len = Vector3D.difference(p.position, position).length();
+		
+		return len < p.radius;
+	}
+	
+	public void simulate(float dt, World world) {
 		this.position.x -= direction.x * dt;
 		this.position.y -= direction.y * dt;
 		this.position.z -= direction.z * dt;
+		
+		for(Opponent p : world.opponents) {
+			if(playerCollision(p)) {
+				p.alive = false;
+				p.setExplosion();
+			}
+		}
 	}
 	
 	public void draw() {

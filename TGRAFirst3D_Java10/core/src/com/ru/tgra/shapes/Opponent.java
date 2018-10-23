@@ -221,6 +221,11 @@ public class Opponent extends Player{
 		
 	}
 	
+
+	public void setExplosion() {
+		explosion = new Explosion(position, shader);
+	}
+	
 	public Node search(float dt) {
 		//dt is not accounted for in the search
 		Node startNode = new Node(new Point3D(position.x, position.y, position.z), new Vector3D(direction.x, direction.y, direction.z));
@@ -298,7 +303,10 @@ public class Opponent extends Player{
 	public void simulate(float dt) {
 		
 		//System.out.println(search().move);
-		
+		if (!this.alive) {
+			explode();
+			return;
+		}
 		Node mov = search(dt);
 		while (mov.parent != null) {
 			//System.out.println(mov.move + ", " + mov.input);

@@ -13,16 +13,19 @@ public class Player {
 	protected Point3D  position;
 	protected Camera cam;
 	protected float cameraUpAngle;
-	protected float angleY, angleX, angleZ, radius;
+	protected float angleY, angleX, angleZ;
+	public float radius;
+	
 	protected PlayerPhysics phys;
 	protected ArrayList<Laser> lasers;
 	protected World world;
 	
 	protected boolean rotateSeq;
 	protected float   rotateYSeq;
+	public Explosion explosion;
 	
 	public boolean alive;
-	private boolean exploding;
+	public boolean exploding;
 
 	
 	public Player(Point3D position, Vector3D direction, World world) {
@@ -87,6 +90,7 @@ public class Player {
 		return false;
 	}
 	
+	
 	public Point3D position() {
 		return this.position;
 	}
@@ -125,8 +129,9 @@ public class Player {
 	}
 	
 	public void simulateLasers(float dt) {
+		
 		for (Laser l : lasers) {
-			l.simulate(dt);
+			l.simulate(dt, world);
 		}
 	}
 	
@@ -178,7 +183,8 @@ public class Player {
 
 	}
 	
-	private void explode() {
+	public void explode() {
+		exploding = true;
 		
 	}
 

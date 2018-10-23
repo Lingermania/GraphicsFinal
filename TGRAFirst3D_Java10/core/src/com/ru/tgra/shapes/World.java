@@ -14,7 +14,7 @@ public class World {
 	private Texture tex;
 	public ArrayList<Opponent> opponents;
 	public Tie player;
-	Explosion explosion;
+	//Explosion explosion;
 	
 	private Shader shader;
 	
@@ -58,12 +58,12 @@ public class World {
 		
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
-		this.explosion = new Explosion(player.position, shader);
+		//this.explosion = new Explosion(player.position, shader);
 	}
 	
 	private void initializeOpponents() {
-		//opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		//opponents.add(new Opponent(new Point3D(300,-25,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(300,-25,10), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(10,15,10), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(10,10,300), new Vector3D(0,0,-1), shader, player, this));
 	}
@@ -88,20 +88,18 @@ public class World {
 	
 	private void drawOpponents() {
 		for(Opponent o : opponents) {
-			o.draw();
+			if (o.alive) {
+				o.draw();
+			}
+			if(o.exploding) {
+				o.explosion.simulate();
+				o.explosion.draw();
+			}
+			
 		}
 	}
 	private void drawPlanets(float dt) {
-		/*Point3D translate = null;
-		for (Planet p : planets) {
-			translate = p.getTranslation(player, dt);
-			if (translate.x == 0 && translate.y == 0 && translate.z == 0) break;
-		}
-		if (translate.x != 0 || translate.y != 0 || translate.z != 0) {
-			for(Planet p : planets) {
-				//p.translate(translate, dt);
-			}
-		}*/
+
 		for(Planet p : planets) {
 			p.draw(player, dt);
 		}
@@ -128,7 +126,7 @@ public class World {
 	}
 	
 	public void test_exp() {
-		explosion.simulate();
+		//explosion.simulate();
 		//explosion.draw();
 	}
 	
@@ -155,10 +153,6 @@ public class World {
 		shader.setProjectionMatrix(cam.getProjectionMatrix());
 		shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
 
-
-		
-		
-		
 		
 		player.draw();
 		//ModelMatrix.main.popMatrix();
@@ -171,7 +165,7 @@ public class World {
 		
 		//drawPyramids();
 		
-		explosion.draw();
+		//explosion.draw();
 		
 	}
 	

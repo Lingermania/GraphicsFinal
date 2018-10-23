@@ -39,24 +39,24 @@ public class Tie extends Player {
 		shader.setLightPosition(position.x, position.y + 2, position.z, 1.0f);
 
 		
-			//shader.setSpotDirection(s2, -0.3f, c2, 0.0f);
-			//shader.setSpotDirection(-cam.n.x, -cam.n.y, -cam.n.z, 0.0f);
-			shader.setSpotExponent(0.0f);
-			shader.setConstantAttenuation(1.0f);
-			shader.setLinearAttenuation(0.00f);
-			shader.setQuadraticAttenuation(0.00f);
-	
-			//shader.setLightColor(s2, 0.4f, c2, 1.0f);
-			shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
-			
-			shader.setGlobalAmbient(1f, 1f,1f, 1);
-	
-			//shader.setMaterialDiffuse(s, 0.4f, c, 1.0f);
-			shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-			shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
-			//shader.setMaterialSpecular(0.0f, 0.0f, 0.0f, 1.0f);
-			shader.setMaterialEmission(0, 0, 0, 1);
-			shader.setShininess(50.0f);
+		//shader.setSpotDirection(s2, -0.3f, c2, 0.0f);
+		//shader.setSpotDirection(-cam.n.x, -cam.n.y, -cam.n.z, 0.0f);
+		shader.setSpotExponent(0.0f);
+		shader.setConstantAttenuation(1.0f);
+		shader.setLinearAttenuation(0.00f);
+		shader.setQuadraticAttenuation(0.00f);
+
+		//shader.setLightColor(s2, 0.4f, c2, 1.0f);
+		shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
+		
+		shader.setGlobalAmbient(1f, 1f,1f, 1);
+
+		//shader.setMaterialDiffuse(s, 0.4f, c, 1.0f);
+		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+		shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+		//shader.setMaterialSpecular(0.0f, 0.0f, 0.0f, 1.0f);
+		shader.setMaterialEmission(0, 0, 0, 1);
+		shader.setShininess(50.0f);
 			
 		if (this.alive)
 		{

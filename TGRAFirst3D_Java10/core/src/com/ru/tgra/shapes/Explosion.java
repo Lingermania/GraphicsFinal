@@ -63,25 +63,28 @@ public class Explosion {
 	}
 	
 	public void draw() {
-		System.out.println("Drawing explosions");
-		Random rand = new Random();
-		for(Particle p : particles) {
-			
-			
-			
-			ModelMatrix.main.loadIdentityMatrix();
-			
-			ModelMatrix.main.pushMatrix();
-			
-			ModelMatrix.main.addTranslation(p.position.x, p.position.y, p.position.z);
-			ModelMatrix.main.addScale(rand.nextFloat()*0.3f, rand.nextFloat()*0.3f, rand.nextFloat()*0.3f);
-			shader.setMaterialDiffuse(1.0f, rand.nextFloat(),0f, 1.0f);
-			shader.setMaterialSpecular(1.0f, rand.nextFloat(),0f, 1.0f);
-			
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-			BoxGraphic.drawSolidCube(shader, null);
-			
-			ModelMatrix.main.popMatrix();
+
+		if (this.simulations < this.maxSimulations) {
+			System.out.println("Drawing explosions");
+			Random rand = new Random();
+			for(Particle p : particles) {
+	
+				ModelMatrix.main.loadIdentityMatrix();
+				
+				ModelMatrix.main.pushMatrix();
+				
+				
+				
+				ModelMatrix.main.addTranslation(p.position.x, p.position.y, p.position.z);
+				ModelMatrix.main.addScale(rand.nextFloat()*0.3f, rand.nextFloat()*0.3f, rand.nextFloat()*0.3f);
+				shader.setMaterialDiffuse(1.0f, rand.nextFloat(),0f, 1.0f);
+				shader.setMaterialSpecular(1.0f, rand.nextFloat(),0f, 1.0f);
+				
+				shader.setModelMatrix(ModelMatrix.main.getMatrix());
+				BoxGraphic.drawSolidCube(shader, null);
+				
+				ModelMatrix.main.popMatrix();
+			}
 		}
 	}
 	
