@@ -46,7 +46,7 @@ public class Explosion {
 			
 			direction.normalize();
 			
-			direction.scale(rand.nextFloat()/0.02f);
+			direction.scale(rand.nextFloat()*0.2f);
 			particles[i] = new Particle(new Point3D(position.x, position.y, position.z),
 										direction,
 										rand.nextFloat());
