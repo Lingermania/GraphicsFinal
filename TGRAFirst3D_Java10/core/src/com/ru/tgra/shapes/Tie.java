@@ -18,6 +18,7 @@ public class Tie extends Player {
 	private Sound laser;
 	private boolean canShoot;
 	private Timer timer;
+	protected ExcellerationEffect exc;
 	
 	public Tie(Point3D position, Vector3D direction, Shader shader, World world) {
 		super(position, direction, world);
@@ -26,6 +27,8 @@ public class Tie extends Player {
 		laser = Gdx.audio.newSound(Gdx.files.internal("sounds/Quadlaser turret fire.mp3"));
 		this.shader = shader;
 		this.canShoot = true;
+		this.exc = new ExcellerationEffect(shader);
+		
 		timer = new Timer();
 	}
 	
@@ -123,6 +126,7 @@ public class Tie extends Player {
 			model.draw(shader);
 		}
 		drawLasers();
+		exc.draw(this);
 		
 		updateCamera();
 		

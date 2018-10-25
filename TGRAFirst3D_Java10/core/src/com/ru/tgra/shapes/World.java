@@ -24,6 +24,7 @@ public class World {
 	private int size;
 	
 	public Camera cam;
+	public Camera orthoCam;
 	
 	public World(Point3D position, Shader shader, int size) {
 		this.shader = shader;
@@ -32,13 +33,16 @@ public class World {
 		
 		BoxGraphic.create();
 		SphereGraphic.create();
-
+		SpriteGraphic.create();
+		
 		ModelMatrix.main = new ModelMatrix();
 		ModelMatrix.main.loadIdentityMatrix();
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 
 		cam = new Camera();
 		cam.look(new Point3D(0, 0, 2), new Point3D(0,0,0), new Vector3D(0,1,0));
+		
+		orthoCam = new Camera();
 		//cam.perspectiveProjection(90.0f, 1f, 0.1f, 100.0f);
 
 		//Initialize planets
@@ -68,7 +72,12 @@ public class World {
 	
 	private void initializeOpponents() {
 		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(300,-25,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
+		/*opponents.add(new Opponent(new Point3D(300,-25,10), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(10,15,10), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(10,80,300), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(35,100,300), new Vector3D(0,0,-1), shader, player, this));
@@ -79,7 +88,7 @@ public class World {
 		opponents.add(new Opponent(new Point3D(-1231,-15,-1111), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(10,-80,300), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(35,-123,-3200), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(-311,2,5000), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(-311,2,5000), new Vector3D(0,0,-1), shader, player, this));*/
 	}
 	
 	

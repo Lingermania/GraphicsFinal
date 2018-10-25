@@ -95,9 +95,22 @@ public class Opponent extends Player{
 	private float score(Node node) {
 		float res = 0;
 		
+		float minDist = 1000000;
+		
+		for(Opponent o : this.world.opponents) {
+			if (o == this) continue;
+			float dist = Vector3D.difference(o.position, node.position).length();
+			
+			minDist = Math.min(minDist, dist);
+		}
+		
+		if (minDist > 4) {
+			minDist = 1;
+		}
+		
 		res = Vector3D.difference(node.position, target.position).length();
 		
-		return -res;
+		return -res/minDist;
 	}
 	
 	public ArrayList<Node> expand(Node node, float dt) {

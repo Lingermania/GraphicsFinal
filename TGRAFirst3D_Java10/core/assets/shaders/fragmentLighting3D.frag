@@ -5,8 +5,10 @@ precision mediump float;
 #endif
 
 uniform sampler2D u_diffuseTexture;
+uniform sampler2D u_alphaTexture;
 
 uniform float u_usesDiffuseTexture;
+uniform float u_usesAlphaTexture;
 
 uniform vec4 u_globalAmbient;
 
@@ -41,6 +43,12 @@ void main()
 	{
 		materialDiffuse = u_materialDiffuse;
 	}
+	
+	if(u_usesAlphaTexture == 1.0)
+	{
+		materialDiffuse.a = texture2D(u_alphaTexture, v_uv).r;  //also * u_materialDiffuse ??? up to you.
+	}
+
 
 	vec4 materialSpecular = u_materialSpecular;
 
@@ -72,5 +80,5 @@ void main()
 
 	//gl_FragColor = u_globalAmbient + u_materialEmission + light1CalcColor;
 	gl_FragColor = u_globalAmbient * materialDiffuse + u_materialEmission + light1CalcColor;
-	//gl_FragColor.a = 0.5;
+	gl_FragColor.a = materialDiffuse.a;
 }

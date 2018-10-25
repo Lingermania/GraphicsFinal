@@ -24,6 +24,7 @@ public class Player {
 	protected float   rotateYSeq;
 	public Explosion explosion;
 	
+	
 	public boolean alive;
 	public boolean exploding;
 
@@ -40,8 +41,8 @@ public class Player {
 		this.rotateSeq = false;
 		this.rotateYSeq = 0;
 		
-		this.cameraUpAngle = 0.8f;
-		
+		this.cameraUpAngle = 1.5f;
+
 		
 		phys = new PlayerPhysics();
 		lasers = new ArrayList<Laser>();

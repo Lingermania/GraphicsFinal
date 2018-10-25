@@ -21,6 +21,8 @@ public class Shader {
 	private int projectionMatrixLoc;
 
 	private boolean usesDiffuseTexture = false;
+	private boolean usesAlphaTexture   = false;
+	
 	private int usesDiffuseTexLoc;
 	private int diffuseTextureLoc;
 
@@ -41,6 +43,9 @@ public class Shader {
 	private int matSpecLoc;
 	private int matShineLoc;
 	private int matEmissionLoc;
+	
+	private int usesAlphaTexLoc;
+	private int alphaTextureLoc;
 
 	public Shader()
 	{
@@ -86,6 +91,9 @@ public class Shader {
 
 		usesDiffuseTexLoc		= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_usesDiffuseTexture");
 		diffuseTextureLoc		= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_diffuseTexture");
+		
+		usesAlphaTexLoc = Gdx.gl.glGetUniformLocation(renderingProgramID, "u_usesAlphaTexture");
+		alphaTextureLoc		= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_alphaTexture");
 
 		eyePosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_eyePosition");
 
@@ -127,10 +135,26 @@ public class Shader {
 			Gdx.gl.glTexParameteri(GL20.GL_TEXTURE_2D, GL20.GL_TEXTURE_WRAP_T, GL20.GL_REPEAT);
 		}
 	}
+	
+	public void setAlphaTexture(Texture tex)
+	{
+		if(tex == null)
+		{
+			Gdx.gl.glUniform1f(usesAlphaTexLoc, 0.0f);
+			usesAlphaTexture = false;
+		}
+		else
+		{
+			tex.bind(0);
+			Gdx.gl.glUniform1i(alphaTextureLoc, 0);
+			Gdx.gl.glUniform1f(usesAlphaTexLoc, 1.0f);
+			usesAlphaTexture = true;
 
+		}
+	}
 	public boolean usesTextures()
 	{
-		return (usesDiffuseTexture/* || usesSpecularTexture ... etc.*/);
+		return (usesDiffuseTexture || usesAlphaTexture /* || usesSpecularTexture ... etc.*/);
 	}
 
 
