@@ -48,7 +48,7 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		
 		
 
-		shader = new Shader();
+		shader = new Shader(2);
 
 		world = new World(new Point3D(0,0,0), shader, 1000000);
 		

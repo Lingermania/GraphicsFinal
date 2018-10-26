@@ -6,6 +6,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
+class LightSource{
+	public int u_lightColorLoc;
+	public int u_lightPositionLoc;
+	public int u_directionalLoc;
+	public LightSource(int u_lightColorLoc, int u_lightPositionLoc, int u_directionalLoc) {
+		this.u_lightColorLoc = u_lightColorLoc;
+		this.u_lightPositionLoc = u_lightPositionLoc;
+		this.u_directionalLoc = u_directionalLoc;
+	}
+}
+
 public class Shader {
 
 	private int renderingProgramID;
@@ -30,7 +41,7 @@ public class Shader {
 
 	private int globalAmbLoc;
 	//private int colorLoc;
-	private int lightPosLoc;
+	//private int lightPosLoc;
 
 	private int spotDirLoc;
 	private int spotExpLoc;
@@ -46,8 +57,14 @@ public class Shader {
 	
 	private int usesAlphaTexLoc;
 	private int alphaTextureLoc;
+	
+	private int lightNumber;
+	public int u_lightNumberLoc;
+	
+	private LightSource[] lights;
+	
 
-	public Shader()
+	public Shader(int lightNumber)
 	{
 		String vertexShaderString;
 		String fragmentShaderString;
@@ -99,7 +116,7 @@ public class Shader {
 
 		globalAmbLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_globalAmbient");
 
-		lightPosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition");
+		//lightPosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition");
 
 		spotDirLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_spotDirection");
 		spotExpLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_spotExponent");
@@ -114,11 +131,29 @@ public class Shader {
 		
 		matEmissionLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialEmission");
 
+		this.lightNumber = lightNumber;
+		
+		initilize_lights();
+		
 		Gdx.gl.glUseProgram(renderingProgramID);
 		
-		System.out.println("ShaderVersion");
-		System.out.println(Gdx.gl.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION));
-		System.out.println("endShader");
+	}
+	
+	private void initilize_lights()
+	{
+		//Set light handles for multiple lights
+		this.lights = new LightSource[this.lightNumber];
+		u_lightNumberLoc = Gdx.gl.glGetUniformLocation(renderingProgramID, "u_light_number");
+		for(int i = 0; i < this.lightNumber; i++) {
+			int colorLoc       = Gdx.gl.glGetUniformLocation(renderingProgramID, "u_light[" + i + "].u_light_color");
+			int positionLoc    = Gdx.gl.glGetUniformLocation(renderingProgramID, "u_light[" + i + "].u_light_position");
+			int directionalLoc = Gdx.gl.glGetUniformLocation(renderingProgramID, "u_light[" + i + "].u_directional");
+			lights[i] = new LightSource(colorLoc, positionLoc, directionalLoc);
+			//System.out.println(colorLoc + "," + positionLoc);
+		}
+		Gdx.gl.glUseProgram(renderingProgramID);
+		System.out.println(this.lightNumber);
+		Gdx.gl.glUniform1i(u_lightNumberLoc, this.lightNumber);
 	}
 
 	public void setDiffuseTexture(Texture tex)
@@ -170,11 +205,31 @@ public class Shader {
 	{
 		Gdx.gl.glUniform4f(globalAmbLoc, r, g, b, a);
 	}
-	public void setLightPosition(float x, float y, float z, float w)
+	private boolean validLightNumber(int lightNumber) {
+		if (0 <= lightNumber && lightNumber < this.lightNumber) return true;
+		return false;
+	}
+	
+	public void setLightDirectional(int lightNumber, int directional) {
+		if(validLightNumber(lightNumber)) {
+			Gdx.gl.glUniform1i(lights[lightNumber].u_directionalLoc, directional);
+		}
+	}
+	
+	public void setLightPosition(int lightNumber, float x, float y, float z, float w)
 	{
-		Gdx.gl.glUniform4f(lightPosLoc, x, y, z, w);
+		if(validLightNumber(lightNumber)) {
+			Gdx.gl.glUniform4f(lights[lightNumber].u_lightPositionLoc, x, y, z, w);
+		}
 	}
 
+	public void setLightColor(int lightNumber,float r, float g, float b, float a)
+	{
+		if(validLightNumber(lightNumber)) {
+			Gdx.gl.glUniform4f(lights[lightNumber].u_lightColorLoc, r, g, b, a);
+		}
+	}
+	
 	public void setSpotDirection(float x, float y, float z, float w)
 	{
 		Gdx.gl.glUniform4f(spotDirLoc, x, y, z, w);
@@ -196,10 +251,7 @@ public class Shader {
 		Gdx.gl.glUniform1f(quadraticAttLoc, att);
 	}
 
-	public void setLightColor(float r, float g, float b, float a)
-	{
-		Gdx.gl.glUniform4f(lightColorLoc, r, g, b, a);
-	}
+
 	public void setMaterialDiffuse(float r, float g, float b, float a)
 	{
 		Gdx.gl.glUniform4f(matDifLoc, r, g, b, a);

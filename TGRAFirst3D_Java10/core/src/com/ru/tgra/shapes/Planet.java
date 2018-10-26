@@ -57,6 +57,7 @@ public class Planet {
 		
 		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 		shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+		shader.setShininess(500);
 		ModelMatrix.main.loadIdentityMatrix();
 		
 		ModelMatrix.main.pushMatrix();

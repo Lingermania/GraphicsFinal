@@ -14,12 +14,21 @@ uniform mat4 u_projectionMatrix;
 
 uniform vec4 u_eyePosition;
 
-uniform vec4 u_lightPosition;
-
 varying vec2 v_uv;
 varying vec4 v_normal;
-varying vec4 v_s;
-varying vec4 v_h;
+varying vec4 v_s[15];
+varying vec4 v_h[15];
+
+struct LightSource
+{
+	vec4 u_light_position;
+	vec4 u_light_color;
+	int  u_directional; //0 is false everything else is true
+};
+
+uniform LightSource u_light[15]; //Defines maximum number of lights
+uniform int u_light_number;
+
 
 void main()
 {
@@ -38,12 +47,19 @@ void main()
 	//preparation for lighting
 	
 	v_normal = normal;
-
-	v_s = normalize(u_lightPosition - position); //direction to the light
-	vec4 v = normalize(u_eyePosition - position); //direction to the camera
 	
-	v_h = v_s + v;
-
+	for(int i = 0; i < u_light_number; i++){
+	
+		if (u_light[i].u_directional == 0){
+			v_s[i] = normalize(u_light[i].u_light_position - position); //direction to the light
+		}
+		else{
+			v_s[i] = u_light[i].u_light_position ;
+		}
+		vec4 v = normalize(u_eyePosition - position); //direction to the camera
+		
+		v_h[i] = v_s[i] + v;
+	}
 
 
 

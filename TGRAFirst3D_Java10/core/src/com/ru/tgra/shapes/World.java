@@ -69,6 +69,11 @@ public class World {
 		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/theme.mp3"));
 		sound.play(1f);
 		
+		//Set up lights
+		/*shader.setLightColor(Lights.LEFT_LIGHT, 1f,0f, 0f,1f);
+		shader.setLightPosition(Lights.LEFT_LIGHT, this.size, this.size, 0, 1f);
+		shader.setLightDirectional(Lights.LEFT_LIGHT, 0);*/
+		
 		
 	}
 	
@@ -181,9 +186,13 @@ public class World {
 		shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
 
 		
+
+		
+		
 		//set projection for background
 		cam.perspectiveProjection(90f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 2000f, size);
 		shader.setProjectionMatrix(cam.getProjectionMatrix());
+		shader.setGlobalAmbient(1f, 1f,1f, 1);
 		//draw background
 		drawPlanets(dt);
 		drawSkyBox();
@@ -192,6 +201,7 @@ public class World {
 		Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
 		
 		//set projection for background
+		//shader.setGlobalAmbient(0f, 0f,0f, 1);
 		cam.perspectiveProjection(90f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, size/2);
 		shader.setProjectionMatrix(cam.getProjectionMatrix());
 		

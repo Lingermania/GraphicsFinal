@@ -363,7 +363,7 @@ public class Opponent extends Player{
 		shader.setQuadraticAttenuation(0.00f);
 
 		//shader.setLightColor(s2, 0.4f, c2, 1.0f);
-		shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
+		//shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		//shader.setGlobalAmbient(1f, 1f,1f, 1);
 
