@@ -352,7 +352,7 @@ public class Opponent extends Player{
 		ModelMatrix.main.pushMatrix();
 		
 
-		shader.setLightPosition(position.x, position.y + 2, position.z, 1.0f);
+		//shader.setLightPosition(position.x, position.y + 2, position.z, 1.0f);
 
 
 		//shader.setSpotDirection(s2, -0.3f, c2, 0.0f);
@@ -365,7 +365,7 @@ public class Opponent extends Player{
 		//shader.setLightColor(s2, 0.4f, c2, 1.0f);
 		shader.setLightColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
-		shader.setGlobalAmbient(1f, 1f,1f, 1);
+		//shader.setGlobalAmbient(1f, 1f,1f, 1);
 
 		//shader.setMaterialDiffuse(s, 0.4f, c, 1.0f);
 		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);

@@ -1,4 +1,4 @@
-//#version 320
+#version 120
 
 #ifdef GL_ES
 precision mediump float;
@@ -23,6 +23,7 @@ varying vec4 v_h;
 
 void main()
 {
+	
 	vec4 position = vec4(a_position.x, a_position.y, a_position.z, 1.0);
 	position = u_modelMatrix * position;
 

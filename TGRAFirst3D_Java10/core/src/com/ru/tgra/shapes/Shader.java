@@ -115,6 +115,10 @@ public class Shader {
 		matEmissionLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialEmission");
 
 		Gdx.gl.glUseProgram(renderingProgramID);
+		
+		System.out.println("ShaderVersion");
+		System.out.println(Gdx.gl.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION));
+		System.out.println("endShader");
 	}
 
 	public void setDiffuseTexture(Texture tex)

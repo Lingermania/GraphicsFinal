@@ -1,4 +1,4 @@
-//#version 320
+#version 120
 
 #ifdef GL_ES
 precision mediump float;
@@ -34,6 +34,7 @@ varying vec4 v_h;
 
 void main()
 {
+	
 	vec4 materialDiffuse;
 	if(u_usesDiffuseTexture == 1.0)
 	{

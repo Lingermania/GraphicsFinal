@@ -1,3 +1,4 @@
+#version 120
 
 #ifdef GL_ES
 precision mediump float;
@@ -12,6 +13,7 @@ varying vec2 v_uv;
 
 void main()
 {
+
 	if(u_usesDiffuseTexture == 1.0)
 	{
 		gl_FragColor = v_mainColor * texture2D(u_diffuseTexture, v_uv) + v_specColor;

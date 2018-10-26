@@ -86,7 +86,7 @@ public class Tie extends Player {
 		ModelMatrix.main.pushMatrix();
 		
 
-		shader.setLightPosition(position.x, position.y + 2, position.z, 1.0f);
+		shader.setLightPosition(position.x, position.y+2, position.z, 1.0f);
 
 		
 		//shader.setSpotDirection(s2, -0.3f, c2, 0.0f);

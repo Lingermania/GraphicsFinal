@@ -68,6 +68,8 @@ public class World {
 		
 		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/theme.mp3"));
 		sound.play(1f);
+		
+		
 	}
 	
 	private void initializeOpponents() {
@@ -107,6 +109,9 @@ public class World {
 		Texture p2 = new Texture(Gdx.files.internal("textures/deathstar.jpg"));
 		planets.add(new Planet(p2, new Point3D(10000, 100, 10000), 4000, 0, shader));
 		
+		
+		planets.add(new Planet(p, new Point3D(this.size/2, this.size/2, this.size/2), 4000, 0, shader));
+		
 	}
 	
 	private void drawOpponents() {
@@ -129,7 +134,6 @@ public class World {
 	}
 
 	private void drawSkyBox() {
-		
 		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 		shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
 		ModelMatrix.main.loadIdentityMatrix();
@@ -171,19 +175,33 @@ public class World {
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.perspectiveProjection(90f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, size);
+
+		
 		shader.setViewMatrix(cam.getViewMatrix());
-		shader.setProjectionMatrix(cam.getProjectionMatrix());
 		shader.setEyePosition(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
 
+		
+		//set projection for background
+		cam.perspectiveProjection(90f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 2000f, size);
+		shader.setProjectionMatrix(cam.getProjectionMatrix());
+		//draw background
+		drawPlanets(dt);
+		drawSkyBox();
+		
+		
+		Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
+		
+		//set projection for background
+		cam.perspectiveProjection(90f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, size/2);
+		shader.setProjectionMatrix(cam.getProjectionMatrix());
 		
 		player.draw();
 		//ModelMatrix.main.popMatrix();
 		drawOpponents();
-		drawPlanets(dt);
+
 		
 		//Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-		drawSkyBox();
+
 		//Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 		
 		//drawPyramids();

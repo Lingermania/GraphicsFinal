@@ -45,12 +45,13 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public void create () {
-
+		
 		
 
 		shader = new Shader();
 
 		world = new World(new Point3D(0,0,0), shader, 1000000);
+		
 	}
 
 	private void input()
