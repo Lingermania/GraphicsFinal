@@ -134,4 +134,9 @@ public class Tie extends Player {
 		ModelMatrix.main.popMatrix();
 	}
 	
+	
+	public void setExplosion() {
+		explosion = new Explosion(position, shader);
+	}
+	
 }

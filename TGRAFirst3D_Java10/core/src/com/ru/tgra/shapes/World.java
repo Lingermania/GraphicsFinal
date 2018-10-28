@@ -127,6 +127,17 @@ public class World {
 			
 		}
 	}
+	private void drawPlayer() {
+		if (player.alive) {
+			player.draw();
+		}
+		if(player.exploding) {
+			player.explosion.simulate();
+			player.explosion.draw();
+		}
+			
+		
+	}
 	private void drawPlanets(float dt) {
 		
 		
@@ -197,10 +208,6 @@ public class World {
 		drawSkyBox();
 		
 		
-
-
-		
-		
 		
 		Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
 		
@@ -211,7 +218,9 @@ public class World {
 		cam.perspectiveProjection(90f, (float)Gdx.graphics.getWidth() / (float)(2*Gdx.graphics.getHeight()), 0.2f, size/2);
 		shader.setProjectionMatrix(cam.getProjectionMatrix());
 		
-		player.draw();
+		tieCollisions();
+		
+		drawPlayer();
 		//ModelMatrix.main.popMatrix();
 		drawOpponents();
 
@@ -261,6 +270,26 @@ public class World {
 		shader.setLightDirectional(Lights.RIGHT_LOW_LIGHT, 0);
 		
 		*/
+	}
+	
+	private void tieCollisions()
+	{
+		for(Opponent o : opponents) {
+			boolean collide;
+			if (o.alive) {
+				collide= player.playerCollision(o);
+				if (collide)
+				{
+					System.out.println("collide");
+					player.alive=false;
+					player.setExplosion();
+					player.exploding=true;
+					o.alive=false;
+					o.setExplosion();
+				}
+			}
+			
+		}
 	}
 	
 	public void setPlayerLightIntensity(boolean up,float dt) {

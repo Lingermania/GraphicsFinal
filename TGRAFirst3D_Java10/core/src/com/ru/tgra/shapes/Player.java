@@ -32,6 +32,7 @@ public class Player {
 	public boolean up;
 
 	
+	
 	public Player(Point3D position, Vector3D direction, World world) {
 		this.direction = direction;
 		this.originalDirection = direction;
@@ -81,10 +82,15 @@ public class Player {
 	}
 	
 	
-	private boolean playerCollision() {
-		boolean val = false;
-		//TODO implement
-		return val;
+	public boolean playerCollision(Player other) {
+		float len = Vector3D.difference(other.position, position).length();
+		
+		if (len <= other.radius + this.radius)
+		{
+			return true;
+		}
+
+		return false;
 	}
 	
 	private boolean collision() {

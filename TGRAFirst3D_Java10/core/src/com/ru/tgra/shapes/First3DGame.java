@@ -66,58 +66,58 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 
 		angle += 180.0f * deltaTime;
 
-		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.A) && world.player.alive== true) {
 			//world.cam.slide(-3.0f * deltaTime, 0, 0);
 			world.player.rotateY(90, deltaTime);
 			world.player.left();
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.D) && world.player.alive== true) {
 			world.cam.slide(3.0f * deltaTime, 0, 0);
 			world.player.rotateY(-90, deltaTime);
 			world.player.right();
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.W) && world.player.alive== true) {
 			//world.cam.slide(0, 0, -3.0f * deltaTime);
 			world.player.move(-deltaTime);
 			world.player.neutralZ();
 			world.player.forward();
 			//cam.walkForward(3.0f * deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.S) && world.player.alive== true) {
 			//world.cam.slide(0, 0, 3.0f * deltaTime);
 			world.player.move(deltaTime);
 			world.player.neutralZ();
 			world.player.backward();
 			//cam.walkForward(-3.0f * deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.R) && world.player.alive== true) {
 			world.test_exp();
 			//world.cam.slide(0, 3.0f * deltaTime, 0);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.F) && world.player.alive== true) {
 			
 			//world.cam.slide(0, -3.0f * deltaTime, 0);
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && world.player.alive== true) {
 			//world.player.rotateZ(-45f, deltaTime);
 			//world.cam.yaw(-90.0f * deltaTime);
 			//cam.rotateY(90.0f * deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && world.player.alive== true) {
 			//world.player.rotateZ(45f, deltaTime);
 			//world.cam.yaw(90.0f * deltaTime);
 			
 			//cam.rotateY(-90.0f * deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.UP) && world.player.alive== true) {
 			world.player.rotateX(-90.0f, deltaTime);
 			world.setPlayerLightIntensity(true,deltaTime);
 			//world.player.rotateUp(4.0f, deltaTime);
 			//world.cam.walkForward(3.0f * deltaTime);
 			//world.cam.pitch(-90.0f * deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && world.player.alive== true) {
 			//world.player.rotateUp(-4.0f, deltaTime);
 			world.player.rotateX(90.0f, deltaTime);
 			world.setPlayerLightIntensity(false,deltaTime);
@@ -125,14 +125,14 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 			//world.cam.pitch(90.0f * deltaTime);
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && world.player.alive== true) {
 			//Shoot laser
 			world.player.shoot();
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.Q) && world.player.alive== true) {
 			world.cam.roll(-90.0f * deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.E)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.E) && world.player.alive== true) {
 			world.cam.roll(90.0f * deltaTime);
 		}
 
