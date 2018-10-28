@@ -27,6 +27,9 @@ public class Player {
 	
 	public boolean alive;
 	public boolean exploding;
+	
+	public float brightness;
+	public boolean up;
 
 	
 	public Player(Point3D position, Vector3D direction, World world) {
@@ -49,6 +52,9 @@ public class Player {
 		
 		alive=true;
 		exploding=false;
+		
+		brightness=1;
+		up=true;
 	}
 	
 	
@@ -235,6 +241,29 @@ public class Player {
 		}
 		
 		
+	}
+	
+	public void brightness(boolean up, float dt)
+	{
+		if (up==this.up)
+		{
+			if (this.brightness - (1/2)*dt>1/2)
+			{
+				this.brightness=this.brightness - (1/2)*dt;
+			}
+		}
+		else
+		{
+			if (this.brightness + (1/2)*dt>1)
+			{
+				this.up= !this.up;
+				this.brightness=1;
+			}
+			else
+			{
+				this.brightness=this.brightness + (1/2)*dt;
+			}
+		}
 	}
 	
 	public void rotateUp(float angle, float dt) {

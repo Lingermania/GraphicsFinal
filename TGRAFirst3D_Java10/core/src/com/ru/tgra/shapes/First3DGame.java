@@ -48,7 +48,7 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		
 		
 
-		shader = new Shader(2);
+		shader = new Shader(3);
 
 		world = new World(new Point3D(0,0,0), shader, 1000000);
 		
@@ -112,6 +112,7 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			world.player.rotateX(-90.0f, deltaTime);
+			world.setPlayerLightIntensity(true,deltaTime);
 			//world.player.rotateUp(4.0f, deltaTime);
 			//world.cam.walkForward(3.0f * deltaTime);
 			//world.cam.pitch(-90.0f * deltaTime);
@@ -119,6 +120,7 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			//world.player.rotateUp(-4.0f, deltaTime);
 			world.player.rotateX(90.0f, deltaTime);
+			world.setPlayerLightIntensity(false,deltaTime);
 			//world.cam.walkForward(-3.0f * deltaTime);
 			//world.cam.pitch(90.0f * deltaTime);
 		}

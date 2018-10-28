@@ -40,8 +40,6 @@ public class Shader {
 	private int eyePosLoc;
 
 	private int globalAmbLoc;
-	//private int colorLoc;
-	//private int lightPosLoc;
 
 	private int spotDirLoc;
 	private int spotExpLoc;
@@ -63,6 +61,7 @@ public class Shader {
 	
 	private LightSource[] lights;
 	
+	private int backgroundLoc;
 
 	public Shader(int lightNumber)
 	{
@@ -131,6 +130,8 @@ public class Shader {
 		
 		matEmissionLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialEmission");
 
+		backgroundLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_background");
+		
 		this.lightNumber = lightNumber;
 		
 		initilize_lights();
@@ -196,7 +197,17 @@ public class Shader {
 		return (usesDiffuseTexture || usesAlphaTexture /* || usesSpecularTexture ... etc.*/);
 	}
 
-
+	public void setBackground(boolean isBackground)
+	{
+		if (isBackground)
+		{
+			Gdx.gl.glUniform1i(backgroundLoc,1);
+		}
+		else
+		{
+			Gdx.gl.glUniform1i(backgroundLoc,0);
+		}
+	}
 	public void setEyePosition(float x, float y, float z, float w)
 	{
 		Gdx.gl.glUniform4f(eyePosLoc, x, y, z, w);

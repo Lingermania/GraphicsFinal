@@ -42,6 +42,8 @@ struct LightSource
 uniform LightSource u_light[15]; //Defines maximum number of lights
 uniform int u_light_number;
 
+uniform int u_background;
+
 void main()
 {
 
@@ -85,7 +87,14 @@ void main()
 		}
 		attenuation *= 1.0 / (u_constantAttenuation + length_s * u_linearAttenuation + pow(length_s, 2.0) * u_quadraticAttenuation);
 			
-		lightCalcColor = lightCalcColor + attenuation * (diffuseColor + specularColor);
+		if (u_background == 1)
+		{	
+			lightCalcColor = lightCalcColor + attenuation * (diffuseColor);// + specularColor);
+		}
+		else
+		{
+			lightCalcColor = lightCalcColor + attenuation * (diffuseColor + specularColor);
+		}
 	}
 	// end for each light
 	

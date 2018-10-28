@@ -86,7 +86,7 @@ public class Tie extends Player {
 		ModelMatrix.main.pushMatrix();
 		
 
-		//shader.setLightPosition(Lights.LEFT_LIGHT,position.x, position.y+2, position.z, 1.0f);
+		//shader.setLightPosition(Lights.TIE_LIGHT,position.x-4, position.y+2, position.z-4, 1.0f);
 
 		
 		//shader.setSpotDirection(s2, -0.3f, c2, 0.0f);
@@ -97,7 +97,8 @@ public class Tie extends Player {
 		shader.setQuadraticAttenuation(0.00f);
 
 		//shader.setLightColor(s2, 0.4f, c2, 1.0f);
-		//shader.setLightColor(Lights.LEFT_LIGHT,1.0f, 0f, 0f, 1.0f);
+		//shader.setLightColor(Lights.TIE_LIGHT,1.0f, 1.0f, 1.0f, 0.75f);
+		//shader.setLightDirectional(Lights.TIE_LIGHT, 0);
 		
 		//shader.setGlobalAmbient(1f, 1f,1f, 1);
 

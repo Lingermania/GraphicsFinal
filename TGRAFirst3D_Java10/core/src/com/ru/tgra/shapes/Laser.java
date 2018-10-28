@@ -54,7 +54,7 @@ public class Laser {
 			ModelMatrix.main.addRotationX(angles.x);
 			ModelMatrix.main.addRotationZ(angles.z);
 			
-			ModelMatrix.main.addScale(0.01f, 0.01f, 1f);
+			ModelMatrix.main.addScale(0.05f, 0.05f, 1f);
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 			
 			
