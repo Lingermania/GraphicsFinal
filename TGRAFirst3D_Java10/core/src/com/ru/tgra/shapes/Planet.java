@@ -55,6 +55,7 @@ public class Planet {
 	public void draw(Player p, float dt) {
 		
 		
+		
 		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 		shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
 		shader.setShininess(500);

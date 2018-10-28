@@ -20,7 +20,7 @@ public class Laser {
 	private boolean playerCollision(Player p) {
 		float len = Vector3D.difference(p.position, position).length();
 		
-		return len < p.radius;
+		return len < 2*p.radius;
 	}
 	
 	public void simulate(float dt, World world) {

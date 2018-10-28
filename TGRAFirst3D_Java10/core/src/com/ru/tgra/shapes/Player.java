@@ -247,21 +247,21 @@ public class Player {
 	{
 		if (up==this.up)
 		{
-			if (this.brightness - (1/2)*dt>1/2)
+			if (this.brightness - (1/3)*dt>1/3)
 			{
-				this.brightness=this.brightness - (1/2)*dt;
+				this.brightness=this.brightness - (1/3)*dt;
 			}
 		}
 		else
 		{
-			if (this.brightness + (1/2)*dt>1)
+			if (this.brightness + (1/3)*dt>1)
 			{
 				this.up= !this.up;
 				this.brightness=1;
 			}
 			else
 			{
-				this.brightness=this.brightness + (1/2)*dt;
+				this.brightness=this.brightness + (1/3)*dt;
 			}
 		}
 	}

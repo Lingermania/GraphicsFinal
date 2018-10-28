@@ -111,7 +111,7 @@ public class World {
 		planets.add(new Planet(p2, new Point3D(10000, 100, 10000), 4000, 0, shader));
 		
 		
-		planets.add(new Planet(p, new Point3D(this.size/2, this.size/2, this.size/2), 4000, 0, shader));
+		
 		
 	}
 	
@@ -128,10 +128,12 @@ public class World {
 		}
 	}
 	private void drawPlanets(float dt) {
-
+		
+		
 		for(Planet p : planets) {
 			p.draw(player, dt);
 		}
+
 	}
 
 	private void drawSkyBox() {
@@ -195,6 +197,11 @@ public class World {
 		drawSkyBox();
 		
 		
+
+
+		
+		
+		
 		Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
 		
 		//set projection for non-background
@@ -222,33 +229,34 @@ public class World {
 	private void lightsOff()
 	{
 		//Set up lights
-		shader.setLightColor(Lights.LEFT_LIGHT, 0f,0f, 0f,1f);
+		shader.setLightColor(Lights.LEFT_LIGHT, 0f,0f, 0f,player.brightness);
 
-		shader.setLightColor(Lights.RIGHT_LIGHT, 0f,0f, 0f,1f);
+		shader.setLightColor(Lights.RIGHT_LIGHT, 0f,0f, 0f,player.brightness);
 		
-		shader.setLightColor(Lights.TIE_LIGHT, 0f,0f, 0f,1f);
+		shader.setLightColor(Lights.TIE_LIGHT, 0f,0f, 0f,player.brightness);
+
 		
 	}
 	private void setLights()
 	{
 		//Set up lights
 		shader.setLightColor(Lights.LEFT_LIGHT, 1f,1f, 1f,player.brightness);
-		shader.setLightPosition(Lights.LEFT_LIGHT, this.size*0.9f, this.size*0.9f, this.size*0.1f, 1f);
+		shader.setLightPosition(Lights.LEFT_LIGHT, this.size, 0, this.size, 1f);
 		shader.setLightDirectional(Lights.LEFT_LIGHT, 0);
 		
 		shader.setLightColor(Lights.RIGHT_LIGHT, 1f,1f, 1f,player.brightness);
-		shader.setLightPosition(Lights.RIGHT_LIGHT, this.size*0.1f, this.size*0.9f, this.size*0.9f, 1f);
+		shader.setLightPosition(Lights.RIGHT_LIGHT, this.size, 0, this.size, 1f);
 		shader.setLightDirectional(Lights.RIGHT_LIGHT, 0);
 	
 		shader.setLightColor(Lights.TIE_LIGHT, 1f,1f, 1f,player.brightness);
 		shader.setLightPosition(Lights.TIE_LIGHT, cam.eye.x, cam.eye.y, cam.eye.z, 1f);
 		shader.setLightDirectional(Lights.TIE_LIGHT, 0);
 		
-		/*shader.setLightColor(Lights.LEFT_LOW_LIGHT, 1f,1f, 1f,1f);
-		shader.setLightPosition(Lights.LEFT_LOW_LIGHT, this.size, -this.size, 0, 1f);
-		shader.setLightDirectional(Lights.LEFT_LOW_LIGHT, 0);
+		/*shader.setLightColor(Lights.BEHIND_LIGHT, 1f,1f, 1f,player.brightness);
+		shader.setLightPosition(Lights.BEHIND_LIGHT, 0, 0, 0, 1f);
+		shader.setLightDirectional(Lights.BEHIND_LIGHT, 0);
 		
-		shader.setLightColor(Lights.RIGHT_LOW_LIGHT, 1f,1f, 1f,1f);
+		/*shader.setLightColor(Lights.RIGHT_LOW_LIGHT, 1f,1f, 1f,1f);
 		shader.setLightPosition(Lights.RIGHT_LOW_LIGHT, 0, -this.size, this.size, 1f);
 		shader.setLightDirectional(Lights.RIGHT_LOW_LIGHT, 0);
 		
@@ -260,6 +268,7 @@ public class World {
 		shader.setLightColor(Lights.TIE_LIGHT, 1, 1, 1, player.brightness);
 		shader.setLightColor(Lights.LEFT_LIGHT, 1, 1, 1, player.brightness);
 		shader.setLightColor(Lights.RIGHT_LIGHT, 1, 1, 1, player.brightness);
+		
 	}
 	
 	private void drawPyramids()
