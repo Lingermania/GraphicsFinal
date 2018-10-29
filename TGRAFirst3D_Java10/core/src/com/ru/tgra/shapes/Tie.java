@@ -1,5 +1,6 @@
 package com.ru.tgra.shapes;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
@@ -18,6 +19,8 @@ public class Tie extends Player {
 	private Sound laser;
 	private boolean canShoot;
 	private Timer timer;
+
+	
 	protected ExcellerationEffect exc;
 	
 	public Tie(Point3D position, Vector3D direction, Shader shader, World world) {
@@ -32,6 +35,28 @@ public class Tie extends Player {
 		timer = new Timer();
 	}
 	
+	public Point3D _bezier(float t, ArrayList<Point3D> points, int min, int max) {
+		
+		if(min == max) {
+			return points.get(min);
+			
+		}
+		if (t == 0) {
+			return points.get(0);
+		}
+		
+		Point3D lhs = _bezier(t, points, min, max -1);
+		Point3D rhs = _bezier(t, points, min+1, max);
+		
+		float ls = (1-t);
+		float rs = t;
+		Point3D res = new Point3D(lhs.x * ls + rhs.x *rs, lhs.y * ls + rhs.y *rs, lhs.z * ls + rhs.z * rs );
+		
+		return res;
+	}
+	public Point3D bezier(float t, ArrayList<Point3D> points) {
+		return _bezier(t, points, 0,  points.size()-1);
+	}
 	
 	public void shoot() {
 		float t = (new Date()).getTime();
@@ -129,7 +154,10 @@ public class Tie extends Player {
 		drawLasers();
 		exc.draw(this);
 		
-		updateCamera();
+		if(!this.world.intro) {
+			updateCamera();
+		}
+		
 		
 		ModelMatrix.main.popMatrix();
 	}

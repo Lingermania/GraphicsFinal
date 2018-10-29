@@ -16,6 +16,8 @@ public class World {
 	public ArrayList<Opponent> opponents;
 	public Tie player;
 	private Sound sound;
+	public boolean intro = true;
+	private float intro_dt = 0.0f;
 	//Explosion explosion;
 	
 	private Shader shader;
@@ -40,7 +42,7 @@ public class World {
 		shader.setModelMatrix(ModelMatrix.main.getMatrix());
 
 		cam = new Camera();
-		cam.look(new Point3D(0, 0, 2), new Point3D(0,0,0), new Vector3D(0,1,0));
+		//cam.look(new Point3D(0, 0, 2), new Point3D(0,0,0), new Vector3D(0,1,0));
 		
 		orthoCam = new Camera();
 		//cam.perspectiveProjection(90.0f, 1f, 0.1f, 100.0f);
@@ -171,17 +173,52 @@ public class World {
 		//explosion.draw();
 	}
 	
+	
+	public void camera_intro(float dt) {
+		Point3D finalDest = Point3D.add(new Point3D(position.x,position.y + player.cameraUpAngle, position.z),Vector3D.scale(player.direction, 3f));
+		ArrayList<Point3D> points = new ArrayList<Point3D>();
+		points.add(new Point3D(-100, 80, -100));
+		points.add(new Point3D(-90, 70, -90));
+		points.add(new Point3D(-80, 60, -80));
+		points.add(new Point3D(-70, 50, -70));
+		points.add(new Point3D(-60, 40, -60));
+		points.add(new Point3D(-50, 30, -50));
+		points.add(new Point3D(-40, 20, -40));
+		points.add(new Point3D(-30, 10, -30));
+		points.add(new Point3D(-20, 5, -20));
+		points.add(new Point3D(-10, 4, -10));
+		points.add(new Point3D(player.position.x, 4, player.position.z));
+		points.add(finalDest);
+		//points.add(new Point3D(player.position.x,player.position.y,player.position.z));
+		
+		Point3D position = player.bezier(intro_dt, points);
+		
+		player.cam.look(position, player.position, new Vector3D(0,1,0));
+		intro_dt += dt/10.0f;
+		
+		if(intro_dt > 1) {
+			intro = false;
+		}
+	}
+	
 	public void update(float dt) {
 		
 		
 		this.position = new Point3D(player.position.x, player.position.y, player.position.z);
-		simulateOpponents(dt);
-		player.simulateLasers(dt);
-		player.rotateXYZ();
-		player.neutralZ();
-		player.neutralSpeed();
 		
-		player.updatePhysics(dt, true);
+		if(!intro) {
+			simulateOpponents(dt);
+			player.simulateLasers(dt);
+			player.rotateXYZ();
+			player.neutralZ();
+			player.neutralSpeed();
+			
+			player.updatePhysics(dt, true);
+		}
+		else {
+			camera_intro(dt);
+		}
+		
 		
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);

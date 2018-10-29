@@ -68,30 +68,43 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 
 		if(Gdx.input.isKeyPressed(Input.Keys.A) && world.player.alive== true) {
 			//world.cam.slide(-3.0f * deltaTime, 0, 0);
-			world.player.rotateY(90, deltaTime);
-			world.player.left();
+			if(!world.intro) {
+				world.player.rotateY(90, deltaTime);
+				world.player.left();
+			}
+			
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D) && world.player.alive== true) {
-			world.cam.slide(3.0f * deltaTime, 0, 0);
-			world.player.rotateY(-90, deltaTime);
-			world.player.right();
+			if(!world.intro) {
+				world.cam.slide(3.0f * deltaTime, 0, 0);
+				world.player.rotateY(-90, deltaTime);
+				world.player.right();
+			}
+			
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W) && world.player.alive== true) {
 			//world.cam.slide(0, 0, -3.0f * deltaTime);
-			world.player.move(-deltaTime);
-			world.player.neutralZ();
-			world.player.forward();
+			if(!world.intro) {
+				world.player.move(-deltaTime);
+				world.player.neutralZ();
+				world.player.forward();
+			}
+			
 			//cam.walkForward(3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S) && world.player.alive== true) {
 			//world.cam.slide(0, 0, 3.0f * deltaTime);
-			world.player.move(deltaTime);
-			world.player.neutralZ();
-			world.player.backward();
+			
+			if(!world.intro) {
+				world.player.move(deltaTime);
+				world.player.neutralZ();
+				world.player.backward();
+			}
+			
 			//cam.walkForward(-3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.R) && world.player.alive== true) {
-			world.test_exp();
+			//world.test_exp();
 			//world.cam.slide(0, 3.0f * deltaTime, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.F) && world.player.alive== true) {
@@ -111,29 +124,46 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 			//cam.rotateY(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP) && world.player.alive== true) {
-			world.player.rotateX(-90.0f, deltaTime);
-			world.setPlayerLightIntensity(true,deltaTime);
+			if(!world.intro) {
+				world.player.rotateX(-90.0f, deltaTime);
+				world.setPlayerLightIntensity(true,deltaTime);
+			}
+			
 			//world.player.rotateUp(4.0f, deltaTime);
 			//world.cam.walkForward(3.0f * deltaTime);
 			//world.cam.pitch(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && world.player.alive== true) {
 			//world.player.rotateUp(-4.0f, deltaTime);
-			world.player.rotateX(90.0f, deltaTime);
-			world.setPlayerLightIntensity(false,deltaTime);
+			
+			if(!world.intro) {
+				world.player.rotateX(90.0f, deltaTime);
+				world.setPlayerLightIntensity(false,deltaTime);
+			}
+			
 			//world.cam.walkForward(-3.0f * deltaTime);
 			//world.cam.pitch(90.0f * deltaTime);
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && world.player.alive== true) {
 			//Shoot laser
-			world.player.shoot();
+			if(!world.intro) {
+				world.player.shoot();
+			}
+			
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.Q) && world.player.alive== true) {
-			world.cam.roll(-90.0f * deltaTime);
+			
+			if(!world.intro) {
+				world.cam.roll(-90.0f * deltaTime);
+			}
+			
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.E) && world.player.alive== true) {
-			world.cam.roll(90.0f * deltaTime);
+			if(!world.intro) {
+				world.cam.roll(90.0f * deltaTime);
+			}
+			
 		}
 
 

@@ -11,8 +11,9 @@ public class Player {
 	protected Vector3D direction, originalDirection;
 	protected Vector3D normalizedDirection;
 	protected Point3D  position;
-	protected Camera cam;
-	protected float cameraUpAngle;
+	public Camera cam;
+	
+	public float cameraUpAngle;
 	protected float angleY, angleX, angleZ;
 	public float radius;
 	
