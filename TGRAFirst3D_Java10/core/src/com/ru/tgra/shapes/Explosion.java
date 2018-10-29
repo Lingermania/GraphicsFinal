@@ -66,7 +66,7 @@ public class Explosion {
 	public void draw() {
 
 		if (this.simulations < this.maxSimulations) {
-			System.out.println("Drawing explosions");
+			//System.out.println("Drawing explosions");
 			Random rand = new Random();
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);

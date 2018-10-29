@@ -1,6 +1,8 @@
 package com.ru.tgra.shapes;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -16,8 +18,11 @@ public class World {
 	public ArrayList<Opponent> opponents;
 	public Tie player;
 	private Sound sound;
-	public boolean intro = true;
-	private float intro_dt = 0.0f;
+	public boolean intro = true, outro = false;
+	private float intro_dt = 0.0f, outro_dt = 0.0f;
+	private Point3D outroCameraPoint;
+	private Timer timer;
+	
 	//Explosion explosion;
 	
 	private Shader shader;
@@ -45,7 +50,9 @@ public class World {
 		//cam.look(new Point3D(0, 0, 2), new Point3D(0,0,0), new Vector3D(0,1,0));
 		
 		orthoCam = new Camera();
+		orthoCam.orthographicProjection(size/2, size/2, size/2, size/2, 0.2f, size/2);
 		//cam.perspectiveProjection(90.0f, 1f, 0.1f, 100.0f);
+		
 
 		//Initialize planets
 		planets = new ArrayList<Planet>();
@@ -71,17 +78,19 @@ public class World {
 		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/theme.mp3"));
 		sound.play(1f);
 		
+		timer = new Timer();
 		
 		
 	}
 	
 	private void initializeOpponents() {
 		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(400,10,400), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(400,25,400), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(800,-10,80), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(80,10,800), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(1000,30,1000), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(10,22,1000), new Vector3D(0,0,-1), shader, player, this));
 		/*opponents.add(new Opponent(new Point3D(300,-25,10), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(10,15,10), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(10,80,300), new Vector3D(0,0,-1), shader, player, this));
@@ -177,7 +186,7 @@ public class World {
 	public void camera_intro(float dt) {
 		Point3D finalDest = Point3D.add(new Point3D(position.x,position.y + player.cameraUpAngle, position.z),Vector3D.scale(player.direction, 3f));
 		ArrayList<Point3D> points = new ArrayList<Point3D>();
-		points.add(new Point3D(-100, 80, -100));
+		points.add(new Point3D(-100, 800, -100));
 		points.add(new Point3D(-90, 70, -90));
 		points.add(new Point3D(-80, 60, -80));
 		points.add(new Point3D(-70, 50, -70));
@@ -201,6 +210,59 @@ public class World {
 		}
 	}
 	
+	public void camera_outro(float dt) {
+		Point3D startingDest = outroCameraPoint;
+		Point3D finalDest = new Point3D(-100, startingDest.y, -100);
+		
+		ArrayList<Point3D> points = new ArrayList<Point3D>();
+		points.add(startingDest);
+		
+		float xdist = Math.abs(finalDest.x - startingDest.x);
+		float zdist = Math.abs(finalDest.z - startingDest.z);
+		float iter = 10;
+		for(int i = 0; i < iter; i++) {
+			float xit = 0;
+			float zit = 0;
+			
+			if(startingDest.x < finalDest.x) {
+				xit = xdist/iter;
+			}
+			else {
+				xit = -xdist/iter;
+			}
+			if(startingDest.z < finalDest.z) {
+				zit = zdist/iter;
+			}
+			else {
+				zit = -zdist/iter;
+			}
+			
+			points.add(new Point3D(startingDest.x + xit,startingDest.y, startingDest.z + zit ));
+		}
+	
+		points.add(finalDest);
+
+		//point on curve
+		Point3D position = player.bezier(outro_dt, points);
+		
+		//death star point
+		Point3D dsPoint = planets.get(1).position();
+		dsPoint = new Point3D(dsPoint.x/100.f, dsPoint.y /100.0f, dsPoint.z /100.0f);
+		
+		Point3D lookat = new Point3D(player.position.x * (1- outro_dt) + dsPoint.x * outro_dt,
+									 player.position.y * (1- outro_dt) + dsPoint.y * outro_dt,
+									 player.position.z * (1- outro_dt) + dsPoint.z * outro_dt);
+		
+		player.cam.look(position, lookat, new Vector3D(0,1,0));
+		//System.out.println(lookat.x + ", " + lookat.y + ", " + lookat.z);
+		//System.out.println(player.position.x + ", " + player.position.y + ", " + player.position.z);
+		outro_dt += dt/10.0f;
+		
+		if(outro_dt > 1) {
+			outro = false;
+		}
+	}
+	
 	public void update(float dt) {
 		
 		
@@ -214,11 +276,29 @@ public class World {
 			player.neutralSpeed();
 			
 			player.updatePhysics(dt, true);
+			if(!player.alive && outro_dt < 1.0f) {
+				outroCameraPoint = new Point3D(player.cam.eye.x, 
+											   player.cam.eye.y,
+											   player.cam.eye.z);
+				timer.schedule(new TimerTask()
+				{
+					@Override
+					public void run() {
+						outro = true;
+					}
+				}
+				, 3500);
+				
+			}
+			
 		}
 		else {
 			camera_intro(dt);
 		}
 		
+		if(outro) {
+			camera_outro(dt);
+		}
 		
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -270,6 +350,7 @@ public class World {
 		
 		//explosion.draw();
 		
+		//Draw map
 	}
 	
 	private void lightsOff()
