@@ -197,7 +197,7 @@ public class World {
 	public void camera_intro(float dt) {
 		Point3D finalDest = Point3D.add(new Point3D(position.x,position.y + player.cameraUpAngle, position.z),Vector3D.scale(player.direction, 3f));
 		ArrayList<Point3D> points = new ArrayList<Point3D>();
-		points.add(new Point3D(-100, 800, -100));
+		points.add(new Point3D(-100, -8000, -100));
 		points.add(new Point3D(-90, 70, -90));
 		points.add(new Point3D(-80, 60, -80));
 		points.add(new Point3D(-70, 50, -70));
