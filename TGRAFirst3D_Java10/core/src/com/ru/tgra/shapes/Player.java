@@ -86,7 +86,7 @@ public class Player {
 	public boolean playerCollision(Player other) {
 		float len = Vector3D.difference(other.position, position).length();
 		
-		if (len <= other.radius + this.radius)
+		if (len <= other.radius + this.radius - 20)
 		{
 			return true;
 		}

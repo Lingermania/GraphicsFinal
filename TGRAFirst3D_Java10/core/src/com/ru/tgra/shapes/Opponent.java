@@ -2,12 +2,19 @@ package com.ru.tgra.shapes;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.ru.tgra.shapes.g3djmodel.G3DJModelLoader;
 import com.ru.tgra.shapes.g3djmodel.MeshModel;
@@ -70,6 +77,10 @@ public class Opponent extends Player{
 	private Shader shader;
 	private MeshModel model;
 	private Player target;
+	private Sound laser;
+	private boolean canShoot;
+	private Timer timer;
+	
 	public Opponent(Point3D position, Vector3D direction, Shader shader, Player target, World world) {
 		
 		super(position, direction, world);
@@ -77,14 +88,54 @@ public class Opponent extends Player{
 		this.target = target;
 		
 		model = G3DJModelLoader.loadG3DJFromFile("TIEfighter.g3dj");
+		
+		laser = Gdx.audio.newSound(Gdx.files.internal("sounds/Quadlaser turret fire.mp3"));
+		this.canShoot = true;
+		timer = new Timer();
 	}
 	
 	public void shoot() {
-		lasers.add(new Laser(new Point3D(position.x, position.y, position.z),
-				  Vector3D.scale(direction, 80), 
-				  new Point3D(angleX, angleY, angleZ), 
-				  shader));
+		float t = (new Date()).getTime();
+		
+		System.out.println(t);
+		if (canShoot) {
+			Random rand = new Random();
+			laser.play(0.5f);
+			
+			for(int i = 0; i < 4; i++) {
+				float a0 = (float)Math.pow(-1, rand.nextInt(2));
+				float a1 = (float)Math.pow(-1, rand.nextInt(2));
+				float a2 = (float)Math.pow(-1, rand.nextInt(2));
+	
+				Point3D pos = new Point3D(position.x + a0*rand.nextFloat()*0.8f, position.y+a1*rand.nextFloat()*0.8f, position.z+a2*rand.nextFloat()*0.8f);
+				Point3D augmentedPlayerPosition = new Point3D(position.x, position.y, position.z);
+				
+				augmentedPlayerPosition.x -= direction.x*100;
+				augmentedPlayerPosition.y -= direction.y*100;
+				augmentedPlayerPosition.z -= direction.z*100;
+				
+				Vector3D direction = Vector3D.difference(pos,augmentedPlayerPosition);
+				direction.normalize();
+				lasers.add(new Laser(pos,
+						  Vector3D.scale(direction, 80), 
+						  new Point3D(angleX, angleY, angleZ), 
+						  shader));
+			}
+			canShoot = false;
+			
+			timer.schedule(new TimerTask()
+					{
+						@Override
+						public void run() {
+							canShoot = true;
+						}
+					}
+					, 750);
+		}
+		
+		
 	}
+	
 	
 	public void drawLasers() {
 		for(Laser l : lasers) {
@@ -341,10 +392,42 @@ public class Opponent extends Player{
 			
 			mov = mov.parent;
 		}
+		float temp=0;
+		temp=Math.abs(dot(NormilizeVector3D(this.direction), NormilizeVector3D(target.direction)));
+		System.out.println(temp);
+		if (temp > 0.9f && temp <=1)
+		{
+			float delatY=this.position.y-target.position.y;
+			if (delatY<-10 && delatY <10)
+			{
+				shoot();
+			}
+		}
+		simulateLasers(dt);
 		updatePhysics(dt, true);
 		rotateXYZ();
 		
 	
+	}
+	
+	private Vector3D NormilizeVector3D(Vector3D v)
+	{
+		Vector3D temp = new Vector3D(0,0,0);
+		temp.x=v.x;
+		temp.y=v.y;
+		temp.z=v.z;
+		float lenV=(float)Math.sqrt((double)(v.x * v.x + v.y * v.y + v.x * v.z));
+		temp.x=temp.x/lenV;
+		temp.y=temp.y/lenV;
+		temp.z=temp.z/lenV;
+		
+		
+		return temp;
+	}
+	
+	private float dot(Vector3D v, Vector3D s)
+	{
+		 return v.x*s.x + v.y*s.y + v.z*s.z;
 	}
 	
 	public void draw() {
