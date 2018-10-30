@@ -85,7 +85,7 @@ public class World {
 	
 	private void initializeOpponents() {
 		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		//opponents.add(new Opponent(new Point3D(400,10,400), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(400,10,400), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(400,25,400), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(800,-10,80), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(80,10,800), new Vector3D(0,0,-1), shader, player, this));
@@ -142,7 +142,7 @@ public class World {
 		}
 		
 	    
-		if(!alive && !outro_win && outro_win_dt < 1f) {
+		if(!alive && !outro_win && outro_win_dt < 1f && !outro_loose && outro_loose_dt == 0) {
 			outro_win = true;
 			outroCameraPoint = player.cam.eye;
 		}
@@ -210,16 +210,16 @@ public class World {
 	public void camera_intro(float dt) {
 		Point3D finalDest = Point3D.add(new Point3D(position.x,position.y + player.cameraUpAngle, position.z),Vector3D.scale(player.direction, 3f));
 		ArrayList<Point3D> points = new ArrayList<Point3D>();
-		points.add(new Point3D(-100, -8000, -100));
-		points.add(new Point3D(-90, 70, -90));
-		points.add(new Point3D(-80, 60, -80));
-		points.add(new Point3D(-70, 50, -70));
-		points.add(new Point3D(-60, 40, -60));
-		points.add(new Point3D(-50, 30, -50));
-		points.add(new Point3D(-40, 20, -40));
-		points.add(new Point3D(-30, 10, -30));
-		points.add(new Point3D(-20, 5, -20));
-		points.add(new Point3D(-10, 4, -10));
+		points.add(new Point3D(-1000, -1000, -1000));
+		points.add(new Point3D(-900, -700, -900));
+		points.add(new Point3D(-800, -600, -800));
+		points.add(new Point3D(-700, -500, -700));
+		points.add(new Point3D(-600, -400, -600));
+		points.add(new Point3D(-500, -300, -500));
+		points.add(new Point3D(-400, -200, -400));
+		points.add(new Point3D(-300, -100, -300));
+		points.add(new Point3D(-200, -50, -200));
+		points.add(new Point3D(-100, 4, -100));
 		points.add(new Point3D(player.position.x, 4, player.position.z));
 		points.add(finalDest);
 		//points.add(new Point3D(player.position.x,player.position.y,player.position.z));
@@ -235,6 +235,7 @@ public class World {
 	}
 	
 	public void camera_outro_win(float dt) {
+		if(outro_win_dt > 1) return;
 		Point3D startingDest = outroCameraPoint;
 		Point3D finalDest = new Point3D(-100, startingDest.y, -100);
 		
@@ -283,12 +284,13 @@ public class World {
 		outro_win_dt += dt/10.0f;
 		
 		if(outro_win_dt > 1) {
-			outro_win = false;
+			//outro_win = false;
 			
 		}
 	}
 	
 	public void camera_outro_loose(float dt) {
+		if(outro_loose_dt > 1) return;
 		Point3D startingDest = outroCameraPoint;
 		Point3D finalDest = new Point3D(-100, startingDest.y, -100);
 		
@@ -337,7 +339,7 @@ public class World {
 		outro_loose_dt += dt/10.0f;
 		
 		if(outro_loose_dt > 1) {
-			outro_loose = false;
+			//outro_loose = false;
 		}
 	}
 	
@@ -379,7 +381,7 @@ public class World {
 			camera_intro(dt);
 		}
 		
-		if(outro_win && ! outro_loose) {
+		if(outro_win && !outro_loose) {
 			camera_outro_win(dt);
 		}
 		if(outro_loose) {
