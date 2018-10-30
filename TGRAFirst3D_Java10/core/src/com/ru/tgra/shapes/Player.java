@@ -122,6 +122,7 @@ public class Player {
 		//System.out.println(cam.eye.x + "," + cam.eye.y + ", " + cam.eye.z);
 		//cam.look(new Point3D(0,2,0), player.position, new Vector3D(0,1,0));
 		
+		if(world.outro_win_dt > 0f || world.outro_loose_dt > 0f) return;
 		cam.look(Point3D.add(new Point3D(position.x,position.y + cameraUpAngle, position.z),Vector3D.scale(direction, 3f)), position, new Vector3D(0,1,0));
 	}
 	

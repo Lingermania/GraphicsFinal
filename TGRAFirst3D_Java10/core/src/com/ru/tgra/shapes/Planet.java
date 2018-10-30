@@ -25,7 +25,7 @@ public class Planet {
 		this.radius = radius;
 		this.orbits = orbits;
 		this.shader = shader;
-		explosion = new Explosion(position, shader, 900, 10000);
+		explosion = new Explosion(position, shader, 500, 1000);
 	}
 	
 	public float radius() {
@@ -67,7 +67,7 @@ public class Planet {
 			if(beam == null) {
 				beam = new LaserBeam(this.position, target, shader, 100000, 500, targetRadius);
 			}
-			System.out.println("drawing beam");
+	
 			beam.simulate();
 			beam.draw();
 		}
