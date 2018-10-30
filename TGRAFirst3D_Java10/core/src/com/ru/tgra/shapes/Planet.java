@@ -11,6 +11,13 @@ public class Planet {
 	private Orbit[] orbit;
 	private int orbits;
 	private Shader shader;
+	public Explosion explosion;
+	public boolean drawLaser = false;
+	public Point3D targetLaser;
+	public boolean alive = true;
+	public boolean exploding = false;
+	public LaserBeam beam;
+	
 	
 	public Planet(Texture tex, Point3D position, float radius, int orbits, Shader shader) {
 		this.tex = tex;
@@ -18,6 +25,7 @@ public class Planet {
 		this.radius = radius;
 		this.orbits = orbits;
 		this.shader = shader;
+		explosion = new Explosion(position, shader, 900, 10000);
 	}
 	
 	public float radius() {
@@ -35,6 +43,8 @@ public class Planet {
 		this.position.y += p.y*dt;
 		this.position.z += p.z*dt;
 	}
+	
+	
 	public Point3D getTranslation(Player player, float dt) {
 		//If planet is close to player return the translation
 		//s.t. all planets will be translated by that point
@@ -52,38 +62,52 @@ public class Planet {
 		
 	}
 	
+	public void drawLaser(Point3D target, float targetRadius, float dt) {
+		if(drawLaser) {
+			if(beam == null) {
+				beam = new LaserBeam(this.position, target, shader, 100000, 500, targetRadius);
+			}
+			System.out.println("drawing beam");
+			beam.simulate();
+			beam.draw();
+		}
+	}
+	
 	public void draw(Player p, float dt) {
 		
 		
-		
-		shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-		shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
-		shader.setShininess(500);
-		ModelMatrix.main.loadIdentityMatrix();
-		
-		ModelMatrix.main.pushMatrix();
-		
-		float len = Vector3D.difference(p.position, position).length();
-		//System.out.println(len - radius);
-		if (len - radius*2 < 30) {
-			position.x += p.position.x*dt;
-			position.y += p.position.y*dt;
-			position.z += p.position.z*dt;
-			//ModelMatrix.main.addTranslation(position.x + p.position.x, position.y + p.position.y, position.z + p.position.z);
-		}
-		else {
+		if (this.alive) {
+			shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+			shader.setMaterialSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+			shader.setShininess(500);
+			ModelMatrix.main.loadIdentityMatrix();
 			
+			ModelMatrix.main.pushMatrix();
+			
+			float len = Vector3D.difference(p.position, position).length();
+			//System.out.println(len - radius);
+			if (len - radius*2 < 30) {
+				position.x += p.position.x*dt;
+				position.y += p.position.y*dt;
+				position.z += p.position.z*dt;
+				//ModelMatrix.main.addTranslation(position.x + p.position.x, position.y + p.position.y, position.z + p.position.z);
+			}
+			else {
+				
+			}
+			
+			ModelMatrix.main.addTranslation(position.x, position.y , position.z);
+			
+			ModelMatrix.main.addScale(radius, radius*2, radius);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			
+			
+			
+			SphereGraphic.drawSolidSphere(shader, tex, null);
+			ModelMatrix.main.popMatrix();
 		}
 		
-		ModelMatrix.main.addTranslation(position.x, position.y , position.z);
 		
-		ModelMatrix.main.addScale(radius, radius*2, radius);
-		shader.setModelMatrix(ModelMatrix.main.getMatrix());
-		
-		
-		
-		SphereGraphic.drawSolidSphere(shader, tex, null);
-		ModelMatrix.main.popMatrix();
 	}
 	
 }

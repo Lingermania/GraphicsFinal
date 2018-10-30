@@ -13,7 +13,7 @@ public class Explosion {
 	public Shader shader;
 	public Particle[] particles;
 	public Texture tex;
-	
+	public float velocity, size;
 	private int maxSimulations, simulations;
 	
 	public Explosion(Point3D position, Shader shader) {
@@ -21,9 +21,24 @@ public class Explosion {
 		this.shader = shader;
 		this.maxSimulations = 1000;
 		this.simulations = 0;
+		this.velocity = 1;
+		this.size = 1;
 		this.tex = new Texture(Gdx.files.internal("textures/particle.png"));
 		
-		particles = new Particle[10000];
+		particles = new Particle[5000];
+		initializeParticles();
+	}
+	
+	public Explosion(Point3D position, Shader shader, float velocity, float size) {
+		this.position = position;
+		this.shader = shader;
+		this.maxSimulations = 1000;
+		this.simulations = 0;
+		this.velocity = velocity;
+		this.size = size;
+		this.tex = new Texture(Gdx.files.internal("textures/particle.png"));
+		
+		particles = new Particle[5000];
 		initializeParticles();
 	}
 	
@@ -36,7 +51,7 @@ public class Explosion {
 		
 		direction.normalize();
 		
-		direction.scale(rand.nextFloat()*0.1f);
+		direction.scale(velocity * rand.nextFloat()*0.1f);
 		
 		Point3D color = new Point3D(1.0f, rand.nextFloat(), 0f);
 		
@@ -63,6 +78,16 @@ public class Explosion {
 		}
 	}
 	
+	public void simulate(float exp) {
+		if (this.simulations < this.maxSimulations) {
+			for(int i = 0; i < particles.length; i++) {
+				particles[i].simulate(exp);
+			}
+			this.simulations++;
+		}
+	}
+	
+	
 	public void draw() {
 
 		if (this.simulations < this.maxSimulations) {
@@ -85,7 +110,7 @@ public class Explosion {
 					ModelMatrix.main.addRotationZ(rand.nextFloat()*360f);
 					ModelMatrix.main.addRotationY(rand.nextFloat()*360f);
 					ModelMatrix.main.addRotationX(rand.nextFloat()*360f);
-					ModelMatrix.main.addScale(rand.nextFloat()*0.8f, rand.nextFloat()*0.8f, rand.nextFloat()*0.8f);
+					ModelMatrix.main.addScale(size * rand.nextFloat()*0.8f, size* rand.nextFloat()*0.8f, size* rand.nextFloat()*0.8f);
 					
 					shader.setMaterialDiffuse(p.color.x, p.color.y, p.color.z, p.life*0.7f);
 					

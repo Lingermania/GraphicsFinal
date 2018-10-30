@@ -121,7 +121,9 @@ public class World {
 		Texture p2 = new Texture(Gdx.files.internal("textures/deathstar.jpg"));
 		planets.add(new Planet(p2, new Point3D(10000, 100, 10000), 4000, 0, shader));
 		
-		
+		//set laser beam on deathstar
+		planets.get(1).drawLaser = true;
+		planets.get(1).targetLaser = planets.get(0).position();
 		
 		
 	}
@@ -150,10 +152,19 @@ public class World {
 		
 	}
 	private void drawPlanets(float dt) {
-		
-		
+
 		for(Planet p : planets) {
-			p.draw(player, dt);
+			if(p.drawLaser) {
+				
+				p.drawLaser(planets.get(0).position(), planets.get(0).radius(), dt);
+			}
+			if (p.alive) {
+				p.draw(player, dt);
+			}
+			if(p.exploding) {
+				p.explosion.simulate(0.99f);
+				p.explosion.draw();
+			}
 		}
 
 	}
@@ -289,6 +300,10 @@ public class World {
 				}
 				, 3500);
 				
+			}
+			if(!player.alive && outro_dt > 1.0f) {
+				planets.get(1).alive = false;
+				planets.get(1).exploding = true;
 			}
 			
 		}
