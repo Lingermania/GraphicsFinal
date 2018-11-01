@@ -150,8 +150,10 @@ public class Tie extends Player {
 			shader.setModelMatrix(ModelMatrix.main.getMatrix());
 	
 			model.draw(shader);
+			
+			drawLasers();
 		}
-		drawLasers();
+		
 		exc.draw(this);
 		
 		if(!this.world.intro) {

@@ -39,6 +39,7 @@ public class Laser {
 			if(playerCollision(world.player) && world.player.alive) {
 				world.player.alive = false;
 				world.player.setExplosion();
+				world.player.explode();
 			}
 			iterations++;
 		}

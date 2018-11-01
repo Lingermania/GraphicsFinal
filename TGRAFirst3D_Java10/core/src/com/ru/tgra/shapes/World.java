@@ -18,7 +18,7 @@ public class World {
 	public ArrayList<Opponent> opponents;
 	public Tie player;
 	private Sound sound;
-	public boolean intro = false, outro_win = false, outro_loose;
+	public boolean intro = true, outro_win = false, outro_loose;
 	public float intro_dt = 0.0f, outro_win_dt = 0.0f, outro_loose_dt;
 	private Point3D outroCameraPoint;
 	private Timer timer;

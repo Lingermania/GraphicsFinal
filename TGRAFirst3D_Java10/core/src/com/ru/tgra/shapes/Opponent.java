@@ -97,10 +97,10 @@ public class Opponent extends Player{
 		this.canShoot = true;
 		timer = new Timer();
 		
-		v1= new Vector3D(-1.5f,-1f,-1);
-		v2= new Vector3D(-1.5f,1f,-1);
-		v3= new Vector3D(-0.5f,1f,-1);
-		v4= new Vector3D(-0.5f,-1f,-1);
+		v1= new Vector3D(-0.5f,-1f,-1);
+		v2= new Vector3D(-0.5f,1f,-1);
+		v3= new Vector3D(-1.5f,1f,-1);
+		v4= new Vector3D(-1.5f,-1f,-1);
 		
 		v1=NormilizeVector3D(v1);
 		v2=NormilizeVector3D(v2);
@@ -146,7 +146,7 @@ public class Opponent extends Player{
 							canShoot = true;
 						}
 					}
-					, 750);
+					, 850);
 		}
 		
 		this.direction.x=this.direction.x*-1;
