@@ -103,7 +103,7 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 			
 			//cam.walkForward(-3.0f * deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.R) && world.player.alive== true) {
+		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
 			//world.test_exp();
 			//world.cam.slide(0, 3.0f * deltaTime, 0);
 			world.endSound();

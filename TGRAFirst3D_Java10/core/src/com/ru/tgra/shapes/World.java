@@ -18,7 +18,7 @@ public class World {
 	public ArrayList<Opponent> opponents;
 	public Tie player;
 	private Sound sound;
-	public boolean intro = true, outro_win = false, outro_loose;
+	public boolean intro = false, outro_win = false, outro_loose;
 	public float intro_dt = 0.0f, outro_win_dt = 0.0f, outro_loose_dt;
 	private Point3D outroCameraPoint;
 	private Timer timer;
@@ -90,8 +90,8 @@ public class World {
 	
 	private void initializeOpponents() {
 		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(400,10,400), new Vector3D(0,0,-1), shader, player, this));
-		//opponents.add(new Opponent(new Point3D(400,25,400), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(40,10,40), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(40,25,40), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(800,-10,80), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(80,10,800), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(1000,30,1000), new Vector3D(0,0,-1), shader, player, this));

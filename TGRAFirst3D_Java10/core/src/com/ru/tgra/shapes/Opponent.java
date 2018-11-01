@@ -80,6 +80,10 @@ public class Opponent extends Player{
 	private Sound laser;
 	private boolean canShoot;
 	private Timer timer;
+	private Vector3D v1;
+	private Vector3D v2;
+	private Vector3D v3;
+	private Vector3D v4;
 	
 	public Opponent(Point3D position, Vector3D direction, Shader shader, Player target, World world) {
 		
@@ -92,11 +96,23 @@ public class Opponent extends Player{
 		laser = Gdx.audio.newSound(Gdx.files.internal("sounds/Quadlaser turret fire.mp3"));
 		this.canShoot = true;
 		timer = new Timer();
+		
+		v1= new Vector3D(-1.5f,-1f,-1);
+		v2= new Vector3D(-1.5f,1f,-1);
+		v3= new Vector3D(-0.5f,1f,-1);
+		v4= new Vector3D(-0.5f,-1f,-1);
+		
+		v1=NormilizeVector3D(v1);
+		v2=NormilizeVector3D(v2);
+		v3=NormilizeVector3D(v3);
+		v4=NormilizeVector3D(v4);
 	}
 	
 	public void shoot() {
 		float t = (new Date()).getTime();
-		
+		this.direction.x=this.direction.x*-1;
+		this.direction.y=this.direction.y*-1;
+		this.direction.z=this.direction.z*-1;
 		System.out.println(t);
 		if (canShoot) {
 			Random rand = new Random();
@@ -117,7 +133,7 @@ public class Opponent extends Player{
 				Vector3D direction = Vector3D.difference(pos,augmentedPlayerPosition);
 				direction.normalize();
 				lasers.add(new Laser(pos,
-						  Vector3D.scale(direction, 80), 
+						  Vector3D.scale(direction, 30), 
 						  new Point3D(angleX, angleY, angleZ), 
 						  shader));
 			}
@@ -133,7 +149,9 @@ public class Opponent extends Player{
 					, 750);
 		}
 		
-		
+		this.direction.x=this.direction.x*-1;
+		this.direction.y=this.direction.y*-1;
+		this.direction.z=this.direction.z*-1;
 	}
 	
 	
@@ -393,17 +411,21 @@ public class Opponent extends Player{
 			mov = mov.parent;
 		}
 		float dist=(float)Math.sqrt(Math.pow(this.position.x+ target.position.x, 2) + Math.pow(this.position.y+ target.position.y, 2) + Math.pow(this.position.z+ target.position.z, 2));
-		float temp= dot(NormilizeVector3D(this.direction), NormilizeVector3D(target.direction));
+		//float temp= dot(NormilizeVector3D(this.direction), NormilizeVector3D(target.direction));
 		if (dist < 700)
 		{
-			if (temp > 0.9f && temp <=1)
+			if (PL(v1,v2)<=0 && PL(v2,v3)<=0 && PL(v3,v4)<=0 && PL(v4,v1)<=0)
+			//if (temp > 0.9f && temp <=1)
 			{
 				/*float delatY=(float)Math.sqrt(this.position.y* this.position.y-target.position.y *target.position.y);
 				if (delatY<-10 && delatY <10)
 				{
 					shoot();
 				}*/
-				shoot();
+				if (target.alive==true)
+				{
+					shoot();
+				}
 			}
 		}
 		simulateLasers(dt);
@@ -411,6 +433,15 @@ public class Opponent extends Player{
 		rotateXYZ();
 		
 	
+	}
+	
+	private float PL(Vector3D v2, Vector3D v3)
+	{
+		Vector3D normal = new Vector3D(v2.y*v3.z - v2.z*v3.y, v2.z*v3.x - v2.x*v3.z,v2.x*v3.y - v2.y*v3.x);
+		//AxB = (AyBz − AzBy, AzBx − AxBz, AxBy − AyBx)
+		Vector3D top = new Vector3D(target.position.x - this.position.x,target.position.y - this.position.y,target.position.z - this.position.z);
+		return dot(top,normal);
+		
 	}
 	
 	private Vector3D NormilizeVector3D(Vector3D v)
