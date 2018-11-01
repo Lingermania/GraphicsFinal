@@ -83,6 +83,11 @@ public class World {
 		
 	}
 	
+	public void endSound()
+	{
+		sound.dispose();
+	}
+	
 	private void initializeOpponents() {
 		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
 		opponents.add(new Opponent(new Point3D(400,10,400), new Vector3D(0,0,-1), shader, player, this));

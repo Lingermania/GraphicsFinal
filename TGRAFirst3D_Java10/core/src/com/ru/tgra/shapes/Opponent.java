@@ -392,14 +392,17 @@ public class Opponent extends Player{
 			
 			mov = mov.parent;
 		}
-		float temp=0;
-		temp=Math.abs(dot(NormilizeVector3D(this.direction), NormilizeVector3D(target.direction)));
-		System.out.println(temp);
-		if (temp > 0.9f && temp <=1)
+		float dist=(float)Math.sqrt(Math.pow(this.position.x+ target.position.x, 2) + Math.pow(this.position.y+ target.position.y, 2) + Math.pow(this.position.z+ target.position.z, 2));
+		float temp= dot(NormilizeVector3D(this.direction), NormilizeVector3D(target.direction));
+		if (dist < 700)
 		{
-			float delatY=this.position.y-target.position.y;
-			if (delatY<-10 && delatY <10)
+			if (temp > 0.9f && temp <=1)
 			{
+				/*float delatY=(float)Math.sqrt(this.position.y* this.position.y-target.position.y *target.position.y);
+				if (delatY<-10 && delatY <10)
+				{
+					shoot();
+				}*/
 				shoot();
 			}
 		}

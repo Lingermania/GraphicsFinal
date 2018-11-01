@@ -106,6 +106,9 @@ public class First3DGame extends ApplicationAdapter implements InputProcessor {
 		if(Gdx.input.isKeyPressed(Input.Keys.R) && world.player.alive== true) {
 			//world.test_exp();
 			//world.cam.slide(0, 3.0f * deltaTime, 0);
+			world.endSound();
+			world= new World(new Point3D(0,0,0), shader, 1000000);
+			
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.F) && world.player.alive== true) {
 			
