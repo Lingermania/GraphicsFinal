@@ -124,7 +124,7 @@ public class World {
 		//Texture tex, Point3D position, float radius, int orbits
 		
 		Texture p =  new Texture(Gdx.files.internal("textures/planet_Quom1200.png"));
-		planets.add(new Planet(p, new Point3D(90000, 90000, 50000), 40000, 0, shader, 1000));
+		planets.add(new Planet(p, new Point3D(90000, 90000, 50000), 40000, 0, shader, 3000));
 		
 		Texture p2 = new Texture(Gdx.files.internal("textures/deathstar.jpg"));
 		planets.add(new Planet(p2, new Point3D(10000, 100, 10000), 4000, 0, shader, 500));
@@ -158,6 +158,7 @@ public class World {
 			planets.get(1).alive = false;
 			planets.get(1).exploding = true;
 			planets.get(0).drawLaser = false;
+			beamSound.dispose();
 		}
 	}
 	
@@ -382,6 +383,7 @@ public class World {
 				planets.get(0).alive = false;
 				planets.get(0).exploding = true;
 				planets.get(1).drawLaser = false;
+				beamSound.dispose();
 			}
 			
 		}

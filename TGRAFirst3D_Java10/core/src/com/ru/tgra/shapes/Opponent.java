@@ -116,7 +116,14 @@ public class Opponent extends Player{
 		System.out.println(t);
 		if (canShoot) {
 			Random rand = new Random();
-			laser.play(0.5f);
+			float dist = Vector3D.difference(world.player.position, this.position).length();
+			if (dist > 100) {
+				dist = 0.01f;
+			}
+			else {
+				dist = 1 - (dist/100);
+			}
+			laser.play(dist);
 			
 			for(int i = 0; i < 4; i++) {
 				float a0 = (float)Math.pow(-1, rand.nextInt(2));
@@ -429,7 +436,7 @@ public class Opponent extends Player{
 			}
 		}
 		simulateLasers(dt);
-		updatePhysics(dt, true);
+		updatePhysics(dt*2, true);
 		rotateXYZ();
 		
 	
