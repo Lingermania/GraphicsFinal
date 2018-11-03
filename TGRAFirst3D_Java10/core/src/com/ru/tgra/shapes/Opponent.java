@@ -110,9 +110,9 @@ public class Opponent extends Player{
 	
 	public void shoot() {
 		float t = (new Date()).getTime();
-		this.direction.x=this.direction.x*-1;
-		this.direction.y=this.direction.y*-1;
-		this.direction.z=this.direction.z*-1;
+
+		
+		Vector3D directionVector = new Vector3D(direction.x*-1, direction.y*-1, direction.z*-1);
 		System.out.println(t);
 		if (canShoot) {
 			Random rand = new Random();
@@ -133,14 +133,14 @@ public class Opponent extends Player{
 				Point3D pos = new Point3D(position.x + a0*rand.nextFloat()*0.8f, position.y+a1*rand.nextFloat()*0.8f, position.z+a2*rand.nextFloat()*0.8f);
 				Point3D augmentedPlayerPosition = new Point3D(position.x, position.y, position.z);
 				
-				augmentedPlayerPosition.x -= direction.x*100;
-				augmentedPlayerPosition.y -= direction.y*100;
-				augmentedPlayerPosition.z -= direction.z*100;
+				augmentedPlayerPosition.x -= directionVector.x*100;
+				augmentedPlayerPosition.y -= directionVector.y*100;
+				augmentedPlayerPosition.z -= directionVector.z*100;
 				
 				Vector3D direction = Vector3D.difference(pos,augmentedPlayerPosition);
 				direction.normalize();
 				lasers.add(new Laser(pos,
-						  Vector3D.scale(direction, 50), 
+						  Vector3D.scale(directionVector, 50), 
 						  new Point3D(angleX, angleY, angleZ), 
 						  shader));
 			}
@@ -156,9 +156,6 @@ public class Opponent extends Player{
 					, 850);
 		}
 		
-		this.direction.x=this.direction.x*-1;
-		this.direction.y=this.direction.y*-1;
-		this.direction.z=this.direction.z*-1;
 	}
 	
 	
@@ -421,23 +418,33 @@ public class Opponent extends Player{
 		//float temp= dot(NormilizeVector3D(this.direction), NormilizeVector3D(target.direction));
 		if (dist < 500)
 		{
-			if (PL(v1,v2)<=0 && PL(v2,v3)<=0 && PL(v3,v4)<=0 && PL(v4,v1)<=0)
+			Vector3D directionToPlayer = Vector3D.difference(this.position, world.player.position);
+			directionToPlayer.y = 0;
+			directionToPlayer.normalize();
+			Vector3D dir = new Vector3D(this.direction.x, 0, this.direction.z);
+			dir.normalize();
+			
+			System.out.println(Math.abs(this.dot(directionToPlayer, dir) - 1));
+			if(Math.abs(this.dot(directionToPlayer, dir) - 1) < 1f && Math.abs(world.player.position.y - this.position.y) < 2.0f) {
+				shoot();
+			}
+			/*if (PL(v1,v2)<=0 && PL(v2,v3)<=0 && PL(v3,v4)<=0 && PL(v4,v1)<=0)
 			//if (temp > 0.9f && temp <=1)
 			{
 				/*float delatY=(float)Math.sqrt(this.position.y* this.position.y-target.position.y *target.position.y);
 				if (delatY<-10 && delatY <10)
 				{
 					shoot();
-				}*/
+				}
 				if (target.alive==true)
 				{
 					shoot();
 				}
-			}
+			}*/
 		}
 		simulateLasers(dt);
-		updatePhysics(dt*2, true);
-		updatePhysics(dt*2, true);
+		//updatePhysics(dt*2, true);
+		updatePhysics(dt, true);
 		rotateXYZ();
 		
 	

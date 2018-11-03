@@ -236,7 +236,7 @@ public class World {
 		Point3D position = player.bezier(intro_dt, points);
 		
 		player.cam.look(position, player.position, new Vector3D(0,1,0));
-		intro_dt += dt/10.0f;
+		intro_dt += dt/5.0f;
 		
 		if(intro_dt > 1) {
 			intro = false;
