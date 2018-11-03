@@ -99,8 +99,8 @@ public class Opponent extends Player{
 		
 		v1= new Vector3D(-0.5f,-1f,-1);
 		v2= new Vector3D(-0.5f,1f,-1);
-		v3= new Vector3D(-1.5f,1f,-1);
-		v4= new Vector3D(-1.5f,-1f,-1);
+		v3= new Vector3D(0.5f,1f,-1);
+		v4= new Vector3D(0.5f,-1f,-1);
 		
 		v1=NormilizeVector3D(v1);
 		v2=NormilizeVector3D(v2);
