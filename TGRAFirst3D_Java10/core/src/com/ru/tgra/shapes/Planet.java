@@ -19,13 +19,13 @@ public class Planet {
 	public LaserBeam beam;
 	
 	
-	public Planet(Texture tex, Point3D position, float radius, int orbits, Shader shader) {
+	public Planet(Texture tex, Point3D position, float radius, int orbits, Shader shader, int explosionSize) {
 		this.tex = tex;
 		this.position = position;
 		this.radius = radius;
 		this.orbits = orbits;
 		this.shader = shader;
-		explosion = new Explosion(position, shader, 500, 1000);
+		explosion = new Explosion(position, shader, explosionSize, explosionSize*2);
 	}
 	
 	public float radius() {

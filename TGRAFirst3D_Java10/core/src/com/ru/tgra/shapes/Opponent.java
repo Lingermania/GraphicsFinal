@@ -133,7 +133,7 @@ public class Opponent extends Player{
 				Vector3D direction = Vector3D.difference(pos,augmentedPlayerPosition);
 				direction.normalize();
 				lasers.add(new Laser(pos,
-						  Vector3D.scale(direction, 30), 
+						  Vector3D.scale(direction, 50), 
 						  new Point3D(angleX, angleY, angleZ), 
 						  shader));
 			}
@@ -412,7 +412,7 @@ public class Opponent extends Player{
 		}
 		float dist=(float)Math.sqrt(Math.pow(this.position.x+ target.position.x, 2) + Math.pow(this.position.y+ target.position.y, 2) + Math.pow(this.position.z+ target.position.z, 2));
 		//float temp= dot(NormilizeVector3D(this.direction), NormilizeVector3D(target.direction));
-		if (dist < 700)
+		if (dist < 500)
 		{
 			if (PL(v1,v2)<=0 && PL(v2,v3)<=0 && PL(v3,v4)<=0 && PL(v4,v1)<=0)
 			//if (temp > 0.9f && temp <=1)

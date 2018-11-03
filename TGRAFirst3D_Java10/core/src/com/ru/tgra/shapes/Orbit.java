@@ -10,7 +10,7 @@ public class Orbit extends Planet {
 	public Orbit(Texture tex, Point3D position, float radius, float speed, Planet planet, Shader shader) {
 		//Takes in texture, position, radius, speed and the planet it is orbiting
 		
-		super(tex, position, radius, 0, shader);
+		super(tex, position, radius, 0, shader, 500);
 		
 		this.speed = speed;
 		this.planet = planet;

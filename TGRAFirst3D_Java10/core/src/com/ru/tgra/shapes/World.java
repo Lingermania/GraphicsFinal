@@ -17,7 +17,7 @@ public class World {
 	private Texture tex;
 	public ArrayList<Opponent> opponents;
 	public Tie player;
-	private Sound sound;
+	private Sound sound, beamSound;
 	public boolean intro = true, outro_win = false, outro_loose;
 	public float intro_dt = 0.0f, outro_win_dt = 0.0f, outro_loose_dt;
 	private Point3D outroCameraPoint;
@@ -76,8 +76,10 @@ public class World {
 		//this.explosion = new Explosion(player.position, shader);
 		
 		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/theme.mp3"));
-		sound.play(1f);
+		sound.loop(1f);
 		
+		beamSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Laserfx.mp3"));
+		beamSound.loop(0.3f);
 		timer = new Timer();
 		
 		
@@ -86,6 +88,7 @@ public class World {
 	public void endSound()
 	{
 		sound.dispose();
+		beamSound.dispose();
 	}
 	
 	private void initializeOpponents() {
@@ -121,10 +124,10 @@ public class World {
 		//Texture tex, Point3D position, float radius, int orbits
 		
 		Texture p =  new Texture(Gdx.files.internal("textures/planet_Quom1200.png"));
-		planets.add(new Planet(p, new Point3D(90000, 90000, 50000), 40000, 0, shader));
+		planets.add(new Planet(p, new Point3D(90000, 90000, 50000), 40000, 0, shader, 1000));
 		
 		Texture p2 = new Texture(Gdx.files.internal("textures/deathstar.jpg"));
-		planets.add(new Planet(p2, new Point3D(10000, 100, 10000), 4000, 0, shader));
+		planets.add(new Planet(p2, new Point3D(10000, 100, 10000), 4000, 0, shader, 500));
 		
 		//set laser beam on deathstar
 		planets.get(1).drawLaser = true;
