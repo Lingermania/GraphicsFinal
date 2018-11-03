@@ -244,7 +244,7 @@ public class Opponent extends Player{
 		float s       = -(float)Math.sin(radians);
 		
 		
-		radians = (xAngle * (float)Math.PI / 180.0f);
+		radians = (-xAngle * (float)Math.PI / 180.0f);
 		c       = (float)Math.cos(radians);
 		s       = -(float)Math.sin(radians);
 		
@@ -253,7 +253,7 @@ public class Opponent extends Player{
 				 					  -s*xNode.direction.y + c*xNode.direction.z);
 		xNode.score =  score(xNode);
 		
-		radians = (-xAngle * (float)Math.PI / 180.0f);
+		radians = (xAngle * (float)Math.PI / 180.0f);
 		c       = (float)Math.cos(radians);
 		s       = -(float)Math.sin(radians);
 		
@@ -436,6 +436,7 @@ public class Opponent extends Player{
 			}
 		}
 		simulateLasers(dt);
+		updatePhysics(dt*2, true);
 		updatePhysics(dt*2, true);
 		rotateXYZ();
 		
