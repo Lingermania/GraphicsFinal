@@ -425,7 +425,7 @@ public class Opponent extends Player{
 			dir.normalize();
 			
 			System.out.println(Math.abs(this.dot(directionToPlayer, dir) - 1));
-			if(Math.abs(this.dot(directionToPlayer, dir) - 1) < 1f && Math.abs(world.player.position.y - this.position.y) < 2.0f) {
+			if(Math.abs(this.dot(directionToPlayer, dir) - 1) < 0.3f && Math.abs(world.player.position.y - this.position.y) < 2.0f) {
 				shoot();
 			}
 			/*if (PL(v1,v2)<=0 && PL(v2,v3)<=0 && PL(v3,v4)<=0 && PL(v4,v1)<=0)
