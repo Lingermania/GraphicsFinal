@@ -65,7 +65,7 @@ public class Planet {
 	public void drawLaser(Point3D target, float targetRadius, float dt) {
 		if(drawLaser) {
 			if(beam == null) {
-				beam = new LaserBeam(this.position, target, shader, 100000, 500, targetRadius);
+				beam = new LaserBeam(this.position, target, shader, 100000, 800, targetRadius);
 			}
 	
 			beam.simulate();

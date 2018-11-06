@@ -114,7 +114,7 @@ public class Opponent extends Player{
 		
 		Vector3D directionVector = new Vector3D(direction.x*-1, direction.y*-1, direction.z*-1);
 		System.out.println(t);
-		if (canShoot) {
+		if (canShoot && world.player.alive) {
 			Random rand = new Random();
 			float dist = Vector3D.difference(world.player.position, this.position).length();
 			if (dist > 100) {
@@ -140,7 +140,7 @@ public class Opponent extends Player{
 				Vector3D direction = Vector3D.difference(pos,augmentedPlayerPosition);
 				direction.normalize();
 				lasers.add(new Laser(pos,
-						  Vector3D.scale(directionVector, 50), 
+						  Vector3D.scale(direction, 50), 
 						  new Point3D(angleX, angleY, angleZ), 
 						  shader));
 			}
