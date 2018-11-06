@@ -92,9 +92,11 @@ public class World {
 	}
 	
 	private void initializeOpponents() {
-		opponents.add(new Opponent(new Point3D(10,10,10), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(40,10,40), new Vector3D(0,0,-1), shader, player, this));
-		opponents.add(new Opponent(new Point3D(40,25,40), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(200,10,200), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(250,10,200), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(-200,25,200), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(-250,25,200), new Vector3D(0,0,-1), shader, player, this));
+		opponents.add(new Opponent(new Point3D(100,0,200), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(800,-10,80), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(80,10,800), new Vector3D(0,0,-1), shader, player, this));
 		//opponents.add(new Opponent(new Point3D(1000,30,1000), new Vector3D(0,0,-1), shader, player, this));
